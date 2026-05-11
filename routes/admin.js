@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const path=require('path')
 
-/* GET home page. */
+/* GET users listing. */
 router.get('/', function(req, res, next) {
   let products = [
     {
@@ -29,7 +30,7 @@ router.get('/', function(req, res, next) {
       image: "https://image01-in.oneplus.net/media/202511/06/f96761005541e8715f92bda23561aa89.png?x-amz-process=image/format,webp/quality,Q_80"
     }
   ];
-  res.render('index', { products });
+  res.render('admin/view-products',{admin:true,products})
 });
 
 module.exports = router;
