@@ -44,7 +44,14 @@ console.log(req.body)
 
 
 productHelper.addProducts(req.body,(result)=>{
-  res.redirect('/admin/add-product')
+  let image=req.files.image
+  image.mv('./public/product-images/' + result + '.jpg',(err,data)=>{
+    if(err){
+      res.send(err)
+    }else{
+      res.redirect('/admin/add-product')
+    }
+  })
 })
 
 

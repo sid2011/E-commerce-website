@@ -7,7 +7,7 @@ module.exports={
     addProducts:(products,callback)=>{
 console.log(products)
 db.get().collection('product').insertOne(products).then((data)=>{
-callback(true)
+callback(data.insertedId)
 
 
 })
