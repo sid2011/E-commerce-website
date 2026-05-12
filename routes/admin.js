@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const path=require('path')
+const productHelper=require('../helpers/product-helpers')
+
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -38,8 +41,16 @@ router.get('/add-product', (req, res) => {
 });
 router.post('/add-product',(req,res)=>{
 console.log(req.body)
+
+
+productHelper.addProducts(req.body,(result)=>{
+  res.redirect('/admin/add-product')
+})
+
+
+
 console.log(req.files.image)
-res.send("Recieved data.")
+
 
 })
 
