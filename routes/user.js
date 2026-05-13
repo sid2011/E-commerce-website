@@ -13,5 +13,8 @@ router.get('/login',(req,res)=>{
 router.get('/signup',(req,res)=>{
   res.render('../views/login/signup-page')
 })
+router.post('/signup',(req,res)=>{
+  res.render('../views/login/signup-page')
+})
 
 module.exports = router;
