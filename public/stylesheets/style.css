@@ -1,3 +1,45 @@
 .card{
     font-style: italic;
-}
+}  body{
+            font-family: Arial;
+            background-color: #f2f2f2;
+        }
+
+        .login-box{
+            width: 500px;
+            margin: 50px auto;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        label{
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+
+        input{
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cccccc;
+        }
+
+        .bottom{
+            margin-top: 15px;
+        }
+
+        .create{
+            color: #2d7bdc;
+            text-decoration: none;
+        }
+
+        .login-btn{
+            float: right;
+            background-color: #2d7bdc;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            cursor: pointer;
+        }
