@@ -14,6 +14,12 @@ router.get('/', function(req, res, next) {
 router.get('/login',(req,res)=>{
   res.render('user-auth/login-page')
 })
+router.post('/signin',(req,res)=>{
+
+})
+
+
+
 
 router.get('/signup',(req,res)=>{
   res.render('user-auth/signup-page')
