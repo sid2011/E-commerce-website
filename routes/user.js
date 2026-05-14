@@ -14,10 +14,17 @@ router.get('/', function(req, res, next) {
 router.get('/login',(req,res)=>{
   res.render('user-auth/login-page')
 })
-router.post('/signin',(req,res)=>{
+
+router.post('/login',(req,res)=>{
+  userHelper.doLogIn(req.body).then((response)=>{
+    if(response.status){
+      res.redirect('/')
+    }else{
+      res.render('user-auth/login-page',{ loginErr: true })
+    }
+  })
 
 })
-
 
 
 
