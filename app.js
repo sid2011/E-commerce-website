@@ -13,7 +13,8 @@ const db=require('./config/connection')
 
 
 var app = express();
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
@@ -21,8 +22,7 @@ app.engine('hbs',engine({extname:'.hbs',defaultLayout:'layout',layoutsDir:__dirn
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())

@@ -1,20 +1,29 @@
 var express = require('express');
 var router = express.Router();
 const productHelper=require('../helpers/product-helpers');
+const userHelper=require('../helpers/user-helper')
+
 /* GET home page. */
+
 router.get('/', function(req, res, next) {
   productHelper.getAllProducts().then((products)=>{
   res.render('index', {products});
-  }
-)});
+  });
+});
+
 router.get('/login',(req,res)=>{
-  res.render('../views/login/login-page')
+  res.render('user-auth/login-page')
 })
+
 router.get('/signup',(req,res)=>{
-  res.render('../views/login/signup-page')
+  res.render('user-auth/signup-page')
 })
+
 router.post('/signup',(req,res)=>{
-  res.render('../views/login/signup-page')
+  userHelper.doSignUp(req.body).then((response)=>{
+    console.log(response)
+    res.redirect('/login')
+  })
 })
 
 module.exports = router;
