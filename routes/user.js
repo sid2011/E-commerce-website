@@ -29,9 +29,6 @@ router.post('/login',(req,res)=>{
   })
 
 })
-
-
-
 router.get('/signup',(req,res)=>{
   res.render('user-auth/signup-page')
 })
@@ -42,5 +39,8 @@ router.post('/signup',(req,res)=>{
     res.redirect('/login')
   })
 })
-
+router.get('/logout',(req,res)=>{
+  req.session.destroy()
+  res.redirect('/login')
+})
 module.exports = router;
