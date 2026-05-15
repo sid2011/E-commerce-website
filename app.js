@@ -9,6 +9,7 @@ var adminRouter = require('./routes/admin');
 const { engine } = require('express-handlebars')
 const fileUpload=require('express-fileupload')
 const db=require('./config/connection')
+const session=require('express-session')
 
 
 
@@ -26,6 +27,7 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
+app.use(session({secret:'Key',cookie:{maxAge:60000}}))
 db.connect()
 .then(()=>{
   console.log("Database connected successfullly at port 27017")

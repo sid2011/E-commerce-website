@@ -18,6 +18,8 @@ router.get('/login',(req,res)=>{
 router.post('/login',(req,res)=>{
   userHelper.doLogIn(req.body).then((response)=>{
     if(response.status){
+      req.session.loggedIn=true
+      req.session.user=response.user
       res.redirect('/')
     }else{
       res.render('user-auth/login-page',{ loginErr: true })
