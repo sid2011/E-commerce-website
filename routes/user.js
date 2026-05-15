@@ -6,8 +6,10 @@ const userHelper=require('../helpers/user-helper')
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
+  let user=req.session.user
+  console.log(user)
   productHelper.getAllProducts().then((products)=>{
-  res.render('index', {products});
+  res.render('index', {products,user});
   });
 });
 

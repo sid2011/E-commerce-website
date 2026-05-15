@@ -27,7 +27,14 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
-app.use(session({secret:'Key',cookie:{maxAge:60000}}))
+app.use(session({
+  secret: 'Key',
+  cookie: {
+    maxAge: 600000
+  },
+  resave: false,
+  saveUninitialized: false
+}))
 db.connect()
 .then(()=>{
   console.log("Database connected successfullly at port 27017")

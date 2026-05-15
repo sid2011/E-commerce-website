@@ -48,8 +48,12 @@
             id="dropdownMenuButton"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >
-            Account
+          >{{#if user}}
+          Hi, {{user.name}} !!👋👋
+          {{else}}
+       Account
+          {{/if}}
+            
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
