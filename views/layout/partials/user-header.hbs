@@ -57,11 +57,19 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
-              <a class="dropdown-item" href="/login">Login </a>
+              {{#if user}}
+          <a class="dropdown-item" href="/logout">Log-out </a>
+          {{else}}
+        <a class="dropdown-item" href="/login">Login </a>
+          {{/if}}
             </li>
-            <li>
+            {{#if user}}
+          {{else}}
+         <li> 
               <a class="dropdown-item" href="/signup">Sign-up </a>
             </li>
+          {{/if}}
+           
           </ul>
         </div>
 
