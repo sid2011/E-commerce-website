@@ -51,6 +51,11 @@ module.exports = {
                     reject(err)
                 })
         })
+    }, getProductDetails: (proId) => {
+        return new Promise(async (resolve, reject) => {
+          let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id: new objectId(proId)}).then((product)=>{
+                   resolve(product)
+             })
+        })
     }
-
 }

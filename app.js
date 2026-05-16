@@ -19,7 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
-app.engine('hbs',engine({extname:'.hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/layout/partials/'}))
+app.engine('hbs',engine({extname:'.hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/layout/partials/', helpers: {
+    inc: function(value) {
+      return parseInt(value) + 1;
+    }
+  }}))
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));

@@ -1,5 +1,5 @@
-<form action="/admin/add-product" method="POST" enctype="multipart/form-data">
-
+<form action="/admin/edit-product" method="POST" enctype="multipart/form-data">
+<h1>Edit product</h1>
   <div class="row">
 
     <div class="col-md-6 mb-3">
@@ -10,6 +10,7 @@
         id="name" 
         name="name" 
         placeholder="Enter name"
+        value="{{product.name}}"
       />
     </div>
 
@@ -21,6 +22,7 @@
         id="category" 
         name="category" 
         placeholder="Enter category"
+        value="{{product.category}}"
       />
     </div>
 
@@ -32,11 +34,13 @@
         id="price" 
         name="price" 
         placeholder="Enter price"
+        value="{{product.price}}"
       />
     </div>
 
     <div class="col-md-6 mb-3">
       <label for="image" class="form-label">Image (only image types accepted)</label>
+      <img src="/product-images/{{product._id}}.jpg" alt="{{product.name}}" style="width: 100px;height:auto">
       <input 
         type="file" 
         class="form-control" 
@@ -45,17 +49,17 @@
       />
     </div>
 
-    <div class="col-md-12 mb-3">
-      <label for="description" class="form-label">Description</label>
-      <textarea 
+   <div class="col-md-6 mb-3">
+      <label for="category" class="form-label">Description</label>
+      <input 
+        type="text" 
         class="form-control" 
-        id="description" 
+        id="Description" 
         name="description" 
-        rows="4"
         placeholder="Enter description"
-      ></textarea>
+        value="{{product.description}}"
+      />
     </div>
-
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>
