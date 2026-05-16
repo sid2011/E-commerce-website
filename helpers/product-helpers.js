@@ -34,7 +34,6 @@ module.exports = {
             }
         })
     },
-
     deleteProduct: (proId) => {
 
         return new Promise((resolve, reject) => {
@@ -57,5 +56,20 @@ module.exports = {
                    resolve(product)
              })
         })
+    },updateProduct: (proId,proDetails) => {
+        return new Promise(async (resolve, reject) => {
+         db.get().collection(collection.PRODUCT_COLLECTION)
+         .updateOne({_id:new objectId(proId)},{
+            $set:{
+                name:proDetails.name,
+                price:proDetails.price,
+                description:proDetails.description,
+                category:proDetails.category
+            }
+            }
+        ).then((response)=>{
+                resolve(response)
+         })
+             })
+        }
     }
-}

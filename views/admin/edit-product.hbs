@@ -1,4 +1,4 @@
-<form action="/admin/edit-product" method="POST" enctype="multipart/form-data">
+<form action="/admin/edit-product/{{product._id}}" method="POST" enctype="multipart/form-data">
 <h1>Edit product</h1>
   <div class="row">
 
@@ -37,19 +37,7 @@
         value="{{product.price}}"
       />
     </div>
-
-    <div class="col-md-6 mb-3">
-      <label for="image" class="form-label">Image (only image types accepted)</label>
-      <img src="/product-images/{{product._id}}.jpg" alt="{{product.name}}" style="width: 100px;height:auto">
-      <input 
-        type="file" 
-        class="form-control" 
-        id="image" 
-        name="image"
-      />
-    </div>
-
-   <div class="col-md-6 mb-3">
+ <div class="col-md-6 mb-3">
       <label for="category" class="form-label">Description</label>
       <input 
         type="text" 
@@ -58,6 +46,16 @@
         name="description" 
         placeholder="Enter description"
         value="{{product.description}}"
+      />
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="image" class="form-label">Image of product</label>
+      <img src="/product-images/{{product._id}}.jpg" alt="{{product.name}}" style="width: 100px;height:100px">
+      <input 
+        type="file" 
+        class="form-control" 
+        id="image" 
+        name="image"
       />
     </div>
   </div>
