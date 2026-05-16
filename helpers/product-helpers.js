@@ -1,11 +1,11 @@
 const db = require('../config/connection')
 const collection = require('../config/collections')
 const { ObjectId } = require('mongodb')
-const objectId=require('mongodb').ObjectId
 
 module.exports = {
 
     addProducts: (products, callback) => {
+
         console.log(products)
 
         db.get()
@@ -17,6 +17,7 @@ module.exports = {
     },
 
     getAllProducts: () => {
+
         return new Promise(async (resolve, reject) => {
 
             try {
@@ -34,6 +35,7 @@ module.exports = {
             }
         })
     },
+
     deleteProduct: (proId) => {
 
         return new Promise((resolve, reject) => {
@@ -50,26 +52,54 @@ module.exports = {
                     reject(err)
                 })
         })
-    }, getProductDetails: (proId) => {
+    },
+
+    getProductDetails: (proId) => {
+
         return new Promise(async (resolve, reject) => {
-          let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id: new objectId(proId)}).then((product)=>{
-                   resolve(product)
-             })
+
+            try {
+
+                let product = await db.get()
+                    .collection(collection.PRODUCT_COLLECTION)
+                    .findOne({ _id: new ObjectId(proId) })
+
+                resolve(product)
+
+            } catch (err) {
+
+                reject(err)
+            }
         })
-    },updateProduct: (proId,proDetails) => {
+    },
+
+    updateProduct: (proId, proDetails) => {
+
         return new Promise(async (resolve, reject) => {
-         db.get().collection(collection.PRODUCT_COLLECTION)
-         .updateOne({_id:new objectId(proId)},{
-            $set:{
-                name:proDetails.name,
-                price:proDetails.price,
-                description:proDetails.description,
-                category:proDetails.category
-            }
-            }
-        ).then((response)=>{
+
+            try {
+
+                let response = await db.get()
+                    .collection(collection.PRODUCT_COLLECTION)
+                    .updateOne(
+                        { _id: new ObjectId(proId) },
+                        {
+                            $set: {
+                                name: proDetails.name,
+                                price: proDetails.price,
+                                description: proDetails.description,
+                                category: proDetails.category
+                            }
+                        }
+                    )
+
                 resolve(response)
-         })
-             })
-        }
+
+            } catch (err) {
+
+                reject(err)
+            }
+        })
     }
+}
+    
