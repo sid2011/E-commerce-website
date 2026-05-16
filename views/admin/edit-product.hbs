@@ -1,0 +1,63 @@
+<form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+
+  <div class="row">
+
+    <div class="col-md-6 mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="name" 
+        name="name" 
+        placeholder="Enter name"
+      />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label for="category" class="form-label">Category</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="category" 
+        name="category" 
+        placeholder="Enter category"
+      />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input 
+        type="number" 
+        class="form-control" 
+        id="price" 
+        name="price" 
+        placeholder="Enter price"
+      />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label for="image" class="form-label">Image (only image types accepted)</label>
+      <input 
+        type="file" 
+        class="form-control" 
+        id="image" 
+        name="image"
+      />
+    </div>
+
+    <div class="col-md-12 mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea 
+        class="form-control" 
+        id="description" 
+        name="description" 
+        rows="4"
+        placeholder="Enter description"
+      ></textarea>
+    </div>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
