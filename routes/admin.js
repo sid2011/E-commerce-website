@@ -30,4 +30,10 @@ productHelper.addProducts(req.body,(result)=>{
 })
 console.log(req.files.image)
 })
+router.get('/delete-product/:id',(req,res)=>{
+  let proId=req.params.id
+  productHelper.deleteProduct(proId).then((response)=>{
+    res.redirect('/admin')
+  })
+})
 module.exports = router;
