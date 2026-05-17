@@ -46,9 +46,9 @@ router.get('/signup',(req,res)=>{
 
 router.post('/signup',(req,res)=>{
   userHelper.doSignUp(req.body).then((response)=>{
-    res.redirect('/login')
     req.session.loggedIn=true
     req.session.user=response.user
+    res.redirect('/login')
   })
 })
 router.get('/logout',(req,res)=>{
@@ -58,5 +58,9 @@ router.get('/logout',(req,res)=>{
 router.get('/cart',verify,(req,res)=>{
     res.render('user/cart')
 })
-
+router.get('/add-to-cart/:id',verify,(req,res)=>{
+  userHelper.addToCart(req.params.id,req.session.user.id).then(()=>{
+    res.redirect('/')
+  })
+})
 module.exports = router;
