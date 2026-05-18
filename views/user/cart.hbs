@@ -1,0 +1,88 @@
+  <style>
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th,td{
+      border: 1px solid #ccc;
+      padding: 15px;
+      text-align: center;
+    }
+
+    th{
+      background: #f2f2f2;
+    }
+
+    .qty-btn{
+      padding: 5px 12px;
+      font-size: 18px;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+
+    .remove-btn{
+      background: red;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+
+    img{
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Shopping Cart</h2>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Title</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+
+        <td>
+          <img src="/product-images/product1.jpg" alt="">
+        </td>
+
+        <td>
+          Shirt
+        </td>
+
+        <td>
+
+          <button class="qty-btn">-</button>
+
+          1
+
+          <button class="qty-btn">+</button>
+
+        </td>
+
+        <td>
+          <button class="remove-btn">
+            Remove
+          </button>
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
