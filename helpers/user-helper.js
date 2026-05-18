@@ -56,10 +56,31 @@ module.exports={
             user: new ObjectId(userId),
             products: [new ObjectId(proId)]
         }
-
+console.log(cartObj)
         await db.get()
             .collection(collection.CART_COLLECTION)
             .insertOne(cartObj)
     }
+    
+},getCartProduct:async(userId)=>{
+let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
+    {
+        $match:{user:new ObjectId(userId)}
+    },{
+        $lookup:{
+            from:collection.PRODUCT_COLLECTION,
+            let:{proList:'$products'},
+            pipeline:[{
+                $match:{
+                    $expr:{
+                        $in:['$_id','$$proList']
+                    }
+                }
+            }],
+            as:'cartItems'
+        }
+    }
+]).toArray()
+   return cartItems[0].cartItems
 }}
 
