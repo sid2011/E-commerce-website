@@ -5,12 +5,14 @@ const userHelper=require('../helpers/user-helper')
 
 
 /* GET home page. */
-const verify=(req,res,next)=>{
-  if(req.session.loggedIn){
-next()
-  }else{
-    res.redirect('/login')
+const verify = (req, res, next) => {
+
+  if (req.session.loggedIn) {
+    next()
+  } else {
+    res.json({ login: false })
   }
+
 }
 router.get('/',async function(req, res, next) {
   let user=req.session.user
@@ -62,11 +64,16 @@ router.get('/cart',verify,async(req,res)=>{
   let products = await userHelper.getCartProduct(req.session.user._id)
     res.render('user/cart',{products,user:req.session.user})
 })
-router.get('/add-to-cart/:id',verify,async(req,res)=>{
-  let products=await userHelper.getCartProduct(req.session.user._id)
-  console.log(products)
-  userHelper.addToCart(req.params.id,req.session.user._id).then(()=>{
-    res.redirect('/')
-  })
+router.get('/add-to-cart/:id', verify, async (req, res) => {
+  try {
+    console.log('API call')
+
+    await userHelper.addToCart(req.params.id, req.session.user._id)
+
+    res.json({ status: true })
+  } catch (err) {
+    console.log(err)
+    res.json({ status: false })
+  }
 })
 module.exports = router;

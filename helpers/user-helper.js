@@ -82,7 +82,9 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
     }
 ]).toArray()
    return cartItems[0].cartItems
-},getCartCount:async(userId)=>{
+},
+
+getCartCount:async(userId)=>{
 let userCart=await db.get().collection(collection.CART_COLLECTION).findOne({user:new ObjectId(userId)})
 let count=0
     if (userCart) {
