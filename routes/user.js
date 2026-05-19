@@ -12,11 +12,14 @@ next()
     res.redirect('/login')
   }
 }
-router.get('/', function(req, res, next) {
+router.get('/',async function(req, res, next) {
   let user=req.session.user
-  console.log(user)
+  let cartCount=0
+   if (req.session.user) {
+    cartCount = await userHelper.getCartCount(req.session.user._id)
+  }
   productHelper.getAllProducts().then((products)=>{
-  res.render('index', {products,user});
+  res.render('index', {products,user,cartCount});
   });
 });
 
