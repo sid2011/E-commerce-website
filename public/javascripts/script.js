@@ -8,9 +8,9 @@ function addToCart(proId) {
         return
       }
       if (data.status) {
-        let count = $('#cartCount').html()
-        count = parseInt(count) + 1
-        $('#cartCount').html(count)
+      let count = parseInt($('#cartCount').text())
+        count = count + 1
+        $('#cartCount').text(count)
       }
     })
     .catch(err => {
