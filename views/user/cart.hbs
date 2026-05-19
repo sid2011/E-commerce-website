@@ -9,20 +9,23 @@
       <th scope="col">Title</th>
       <th scope="col">Category</th>
       <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
       <th scope="col">Description</th>
       <th>Image</th>
     </tr>
   </thead>
   <tbody>
-    
+    {{#each products}}
     <tr>
-      <th scope="row">1</th>
-      <td>Lenovo</td>
-      <td>Laptops</td>
-      <td>45000</td>
-      <td>Good laptop for professionals</td>
-      <td><img style="width: 50px;height:50px"  src="https://imgs.search.brave.com/UI11x1a4-N1s5LtRoh3-Mit0Z9u77cl0LhVqo1pZI3c/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzF6OE5qZk0xT0wu/anBn"></td>
+      <th scope="row">{{inc @index}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.category}}</td>
+      <td>{{this.price}}</td>
+      <td><button class="bg-danger">-</button> 1 <button class="bg-success">+</button></td>
+      <td>{{this.description}}</td>
+      <td><img style="width: 50px;height:50px"  src="../product-images/{{this._id}}.jpg" alt="{{this.name}}"></td>
     </tr>
+    {{/each}}
   </tbody>
 </table>
     </div>

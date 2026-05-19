@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
       <!-- Brand -->
-      <a class="navbar-brand" href="#">Shopping-Cart</a>
+      <a class="navbar-brand" href="/">Shopping-Cart</a>
 
       <!-- Mobile Toggle Button -->
       <button
@@ -31,7 +31,11 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/cart">Cart</a>
+            <a href="/cart">
+  <button type="button" class="btn btn-primary text-white fw-bold">
+    Cart <span class="badge badge-light">9</span>
+  </button>
+</a>
           </li>
 {{#if user}}
           <li class="nav-item">
