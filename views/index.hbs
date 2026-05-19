@@ -1,24 +1,45 @@
 
-    <section><div class="container mt-5">
-        <div class="row">
-            {{#each products}}
-          <div class="col-md-3 m-0">
-            <div class="card" style="width:12em;">
-              <img style="width=200px;height;200px"
-                src="../product-images/{{this._id}}.jpg"
-                class="card-img-top"
-                alt="{{this.name}}"
-              />
-              <div class="card-body">
-                <h5 class="card-title">{{this.name}}</h5>
-                <p class="card-text">{{this.description}}</p>
-                <a href="/add-to-cart/{{this._id}}" class="btn btn-primary">Add-to cart</a>
-              </div>
-            </div>
-              {{/each}}
+   <section>
+  <div class="container mt-5">
+    <div class="row">
+
+      {{#each products}}
+      <div class="col-12 col-sm-6 col-md-3 mb-4">
+        <div class="card h-100" style="width: 12em;">
+          
+          <img
+            src="../product-images/{{this._id}}.jpg"
+            class="card-img-top"
+            alt="{{this.name}}"
+          />
+
+          <div class="card-body">
+            <h5 class="card-title">{{this.name}}</h5>
+            <p class="card-text">{{this.description}}</p>
+            
+            <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">
+              Add-to-cart
+            </button>
           </div>
+
         </div>
       </div>
-    </section>
+      {{/each}}
+
+    </div>
+  </div>
+</section>
+    <script>
+      function addToCart(proId){
+  $.ajax({
+    url:'/add-to-cart/'+proId,
+    method:'get',
+    success:(response)=>{
+alert(response)
+    }
+  })
+      }
+    
+    </script>
 
    
