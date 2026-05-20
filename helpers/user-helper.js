@@ -2,6 +2,7 @@ const db=require('../config/connection')
 const collection=require('../config/collections')
 const bcrypt=require('bcrypt')
 const { ObjectId } = require('mongodb')
+const { log } = require('node:console')
 
 module.exports={
     doSignUp:(userData)=>{
@@ -34,27 +35,37 @@ module.exports={
         }
         })
     },addToCart: async (proId, userId) => {
+    let proObj={
+        item:new ObjectId(proId),
+        quantity:1
+    }
 
     let userCart = await db.get()
         .collection(collection.CART_COLLECTION)
         .findOne({ user: new ObjectId(userId) })
 
     if (userCart) {
-
-        await db.get()
+let proExist=userCart.products.findIndex(product=>product.item==proId)
+console.log(proExist)
+if(proExist!=-1){
+    db.get().collection(collection.CART_COLLECTION).updateOne({'products.item':new ObjectId(proId)},
+{
+    $inc:{'products.$.quantity':1}
+})
+}else{
+await db.get()
             .collection(collection.CART_COLLECTION)
             .updateOne(
                 { user: new ObjectId(userId) },
                 {
-                    $push: { products: new ObjectId(proId) }
+                    $p: { products:proObj }
                 }
             )
-
-    } else {
+}} else {
 
         let cartObj = {
             user: new ObjectId(userId),
-            products: [new ObjectId(proId)]
+            products: [proObj]
         }
 console.log(cartObj)
         await db.get()
