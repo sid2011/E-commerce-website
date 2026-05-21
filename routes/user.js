@@ -10,7 +10,7 @@ const verify = (req, res, next) => {
   if (req.session.loggedIn) {
     next()
   } else {
-    res.json({ login: false })
+    res.redirect('/login')
   }
 
 }

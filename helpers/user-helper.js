@@ -86,10 +86,10 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
             }
         },{
                 $lookup:{
-                    from:products.PRODUCT_COLLECTION,
+                    from:collection.PRODUCT_COLLECTION,
                     localField:'item',
                     foreignField:'_id',
-                    as:'products'
+                    as:'product'
                 }
             }
 ]).toArray()
