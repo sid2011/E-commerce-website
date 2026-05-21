@@ -48,7 +48,7 @@ module.exports={
 let proExist=userCart.products.findIndex(product=>product.item.toString()==proId)
 console.log(proExist)
 if(proExist!=-1){
-    db.get().collection(collection.CART_COLLECTION).updateOne({ user: new ObjectId(userId),'products.item':new ObjectId(proId)},
+   await db.get().collection(collection.CART_COLLECTION).updateOne({ user: new ObjectId(userId),'products.item':new ObjectId(proId)},
 {
     $inc:{'products.$.quantity':1}
 })
@@ -78,7 +78,7 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
     {
         $match:{user:new ObjectId(userId)}},
         {
-            $unwind:'products'
+            $unwind:'$products'
         },{
             $project:{
                 item:'$products.item',
@@ -86,7 +86,7 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
             }
         },{
                 $lookup:{
-                    from:products.CART_COLLECTION,
+                    from:products.PRODUCT_COLLECTION,
                     localField:'item',
                     foreignField:'_id',
                     as:'products'
@@ -94,7 +94,7 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
             }
 ]).toArray()
 console.log(cartItems)
-   return cartItems[0].cartItems
+   return cartItems
 },
 
 getCartCount:async(userId)=>{
