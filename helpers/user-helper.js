@@ -91,6 +91,10 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
                     foreignField:'_id',
                     as:'product'
                 }
+            },{
+                $project:{
+                    item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
+                }
             }
 ]).toArray()
 console.log(cartItems)
@@ -102,5 +106,5 @@ let userCart=await db.get().collection(collection.CART_COLLECTION).findOne({user
 let count=0
     if (userCart) {
 count=userCart.products.length
-}return count}
-}
+}return count},
+

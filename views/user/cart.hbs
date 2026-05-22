@@ -18,21 +18,20 @@
     {{#each products}}
 <tr>
   <th scope="row">{{inc @index}}</th>
-  {{#each this.product}}
   <td>{{this.name}}</td>
   <td>
     <img
       style="width:50px;height:50px"
-      src="/product-images/{{this._id}}.jpg"
-      alt="{{this.name}}"
+      src="/product-images/{{this.product._id}}.jpg"
+      alt="{{this.product.Name}}"
     >
   </td>
   <td>{{this.category}}</td>
   <td>{{this.price}}</td>
   <td>
-    <button class="bg-danger">-</button>
-    {{../quantity}}
-    <button class="bg-success">+</button>
+    <button class="bg-danger" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+    {{this.quantity}}
+    <button class="bg-success" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
   </td>
   <td>{{this.description}}</td>
   <td>
@@ -44,10 +43,14 @@
       Delete
     </a>
   </td>
-  {{/each}}
 </tr>
 {{/each}}
   </tbody>
 </table>
     </div>
 </section>
+<script>
+  changeQuantity(cartId,proId,count)=>{
+
+  }
+</script>
