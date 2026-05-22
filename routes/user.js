@@ -76,9 +76,14 @@ router.get('/add-to-cart/:id', verify, async (req, res) => {
     res.json({ status: false })
   }
 })
-router.post('/change-product-quantity',(req,res)=>{
-  userHelper.changeQuantity(req.body).then(()=>{
-  res.send('popikuttan')
-  })
+router.post('/change-product-quantity', (req, res) => {
+    userHelper.changeQuantity(
+        req.body.cart,
+        req.body.product,
+        req.body.count
+    ).then(() => {
+        console.log("Issue fixed")
+        res.json({ status: true })
+    })
 })
 module.exports = router;

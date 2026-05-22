@@ -81,6 +81,7 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
             $unwind:'$products'
         },{
             $project:{
+                id:1,
                 item:'$products.item',
                 quantity:'$products.quantity'
             }
@@ -93,11 +94,10 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
                 }
             },{
                 $project:{
-                    item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
+                    _id:1,item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
                 }
             }
 ]).toArray()
-console.log(cartItems)
    return cartItems
 },
 
@@ -108,22 +108,19 @@ let count=0
 count=userCart.products.length
 }return count},
 
-changeQuantity:async(uerId,cartId,proId,count)=>{
-     let userCart = await db.get()
-        .collection(collection.CART_COLLECTION)
-        .findOne({ user: new ObjectId(userId) })
+changeQuantity: async (cartId, proId, count) => {
+count=parseInt(count)
 
-    if (userCart) {
-let proExist=userCart.products.findIndex(product=>product.item.toString()==proId)
-console.log(proExist)
-}
+    await db.get().collection(collection.CART_COLLECTION).updateOne(
+        {
+            _id: new ObjectId(cartId),
+            'products.item': new ObjectId(proId)
+        },
+        {
+            $inc: {
+                'products.$.quantity': count
+            }
+        }
+    )
 
-    count=parseInt(count)
-    console.log(cartId,proId)
-if(proExist!=-1){
-   await db.get().collection(collection.CART_COLLECTION).updateOne({ user: new ObjectId(userId),'products.item':new ObjectId(proId)},
-{
-    $inc:{'products.$.quantity':count}
-})
-}
 }}

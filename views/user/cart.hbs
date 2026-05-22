@@ -1,58 +1,90 @@
 <section>
-    <div class="container"><div class="row mt-3">
-        <a href="/" class="btn btn-success ms-auto" style="width:11%">Go back</a></div>
+    <div class="container">
+
+        <div class="row mt-3">
+            <a href="/" class="btn btn-success ms-auto" style="width:11%">
+                Go back
+            </a>
+        </div>
+
         <table class="table mt-3">
-  <thead>
-    <tr>
-        
-      <th scope="col">No</th>
-      <th scope="col">Title</th>
-      <th scope="col">Category</th>
-      <th scope="col">Price</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Description</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each products}}
-<tr>
-  <th scope="row">{{inc @index}}</th>
-  <td>{{this.name}}</td>
-  <td>
-    <img
-      style="width:50px;height:50px"
-      src="/product-images/{{this.product._id}}.jpg"
-      alt="{{this.product.Name}}"
-    >
-  </td>
-  <td>{{this.category}}</td>
-  <td>{{this.price}}</td>
-  <td>
-    <button class="bg-danger" onclick="changeQuantity('{{../user}}','{{this.product._id}}',-1)">-</button>
-    {{this.quantity}}
-   <button class="bg-success" onclick="changeQuantity({{this.user}},'{{this._id}}','{{this.product._id}}',1)">+</button>
-  </td>
-  <td>{{this.description}}</td>
-  <td>
-    <a
-      href="/cart/delete-product/{{this._id}}"
-      class="btn btn-danger"
-      onclick="return confirm('Do you want to delete {{this.name}}??')"
-    >
-      Delete
-    </a>
-  </td>
-</tr>
-{{/each}}
-  </tbody>
-</table>
+
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Title</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {{#each products}}
+
+                <tr>
+
+                    <th scope="row">{{inc @index}}</th>
+
+                    <td>{{this.product.Name}}</td>
+
+                    <td>
+                        <img
+                            style="width:50px;height:50px"
+                            src="/product-images/{{this.product._id}}.jpg"
+                            alt=""
+                        >
+                    </td>
+
+                    <td>{{this.product.Category}}</td>
+
+                    <td>{{this.product.Price}}</td>
+
+                    <td>
+
+                        <button
+                            class="bg-danger"
+                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)"
+                        >
+                            -
+                        </button>
+
+                        <span id="{{this.product._id}}">
+                            {{this.quantity}}
+                        </span>
+
+                        <button
+                            class="bg-success"
+                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)"
+                        >
+                            +
+                        </button>
+
+                    </td>
+
+                    <td>{{this.product.Description}}</td>
+
+                    <td>
+                        <a
+                            href="/cart/delete-product/{{this.product._id}}"
+                            class="btn btn-danger"
+                            onclick="return confirm('Do you want to delete this product?')"
+                        >
+                            Delete
+                        </a>
+                    </td>
+
+                </tr>
+
+                {{/each}}
+
+            </tbody>
+
+        </table>
+
     </div>
 </section>
-<script>
-  changeQuantity(userId,cartId,proId,count)=>{
-userHelper.changeProductQuantity(req.body).then(()=>{
-  alert("changed")
-  })
-  }
-</script>
