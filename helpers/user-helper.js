@@ -108,3 +108,22 @@ let count=0
 count=userCart.products.length
 }return count},
 
+changeQuantity:async(uerId,cartId,proId,count)=>{
+     let userCart = await db.get()
+        .collection(collection.CART_COLLECTION)
+        .findOne({ user: new ObjectId(userId) })
+
+    if (userCart) {
+let proExist=userCart.products.findIndex(product=>product.item.toString()==proId)
+console.log(proExist)
+}
+
+    count=parseInt(count)
+    console.log(cartId,proId)
+if(proExist!=-1){
+   await db.get().collection(collection.CART_COLLECTION).updateOne({ user: new ObjectId(userId),'products.item':new ObjectId(proId)},
+{
+    $inc:{'products.$.quantity':count}
+})
+}
+}}

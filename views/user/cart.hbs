@@ -29,9 +29,9 @@
   <td>{{this.category}}</td>
   <td>{{this.price}}</td>
   <td>
-    <button class="bg-danger" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+    <button class="bg-danger" onclick="changeQuantity('{{../user}}','{{this.product._id}}',-1)">-</button>
     {{this.quantity}}
-    <button class="bg-success" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+   <button class="bg-success" onclick="changeQuantity({{this.user}},'{{this._id}}','{{this.product._id}}',1)">+</button>
   </td>
   <td>{{this.description}}</td>
   <td>
@@ -50,7 +50,9 @@
     </div>
 </section>
 <script>
-  changeQuantity(cartId,proId,count)=>{
-
+  changeQuantity(userId,cartId,proId,count)=>{
+userHelper.changeProductQuantity(req.body).then(()=>{
+  alert("changed")
+  })
   }
 </script>

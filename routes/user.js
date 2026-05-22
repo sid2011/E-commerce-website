@@ -77,8 +77,8 @@ router.get('/add-to-cart/:id', verify, async (req, res) => {
   }
 })
 router.post('/change-product-quantity',(req,res)=>{
-  userHelper.changeProductQuantity(req.body).then(()=>{
-    
+  userHelper.changeQuantity(req.body).then(()=>{
+  res.send('popikuttan')
   })
 })
 module.exports = router;
