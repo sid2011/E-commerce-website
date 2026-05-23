@@ -123,4 +123,18 @@ count=parseInt(count)
         }
     )
 
+},deleteCartProducts: async (proId,userId) => {
+     await db.get().collection(collection.CART_COLLECTION).updateOne(
+        { user: new ObjectId(userId) },
+        {
+            $pull: {
+                products: {
+                    item: new ObjectId(proId)
+                }
+            }
+        }
+    )
 }}
+
+
+

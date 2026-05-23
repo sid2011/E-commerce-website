@@ -86,4 +86,12 @@ router.post('/change-product-quantity', (req, res) => {
         res.json({ status: true })
     })
 })
+router.post('/cart/delete-product/:id/:userId',async(req,res)=>{
+let proId=req.params.id
+let userId=req.params.userId
+await userHelper.deleteCartProducts(proId,userId).then(()=>{
+  console.log("Delete button clicked")
+  res.redirect('/cart')
+})
+})
 module.exports = router;
