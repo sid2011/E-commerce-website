@@ -51,9 +51,7 @@ router.get('/signup',(req,res)=>{
 
 router.post('/signup',(req,res)=>{
   userHelper.doSignUp(req.body).then((response)=>{
-    req.session.loggedIn=true
-    req.session.user=response.user
-    res.redirect('/login')
+     res.redirect('/login')
   })
 })
 router.get('/logout',(req,res)=>{
@@ -90,6 +88,7 @@ let proId=req.params.id
 let userId=req.params.userId
 await userHelper.deleteCartProducts(proId,userId).then(()=>{
   res.redirect('/cart')
+  console.log(heloi)
 })
 })
 module.exports = router;
