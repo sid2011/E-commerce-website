@@ -82,7 +82,6 @@ router.post('/change-product-quantity', (req, res) => {
         req.body.product,
         req.body.count
     ).then(() => {
-        console.log("Issue fixed")
         res.json({ status: true })
     })
 })
@@ -90,7 +89,6 @@ router.post('/cart/delete-product/:id/:userId',async(req,res)=>{
 let proId=req.params.id
 let userId=req.params.userId
 await userHelper.deleteCartProducts(proId,userId).then(()=>{
-  console.log("Delete button clicked")
   res.redirect('/cart')
 })
 })
