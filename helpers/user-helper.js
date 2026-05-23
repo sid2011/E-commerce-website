@@ -109,7 +109,7 @@ count=userCart.products.length
 }return count},
 
 changeQuantity: async (cartId, proId, count) => {
-count=parseInt(count)
+    count = parseInt(count)
 
     await db.get().collection(collection.CART_COLLECTION).updateOne(
         {
@@ -123,6 +123,17 @@ count=parseInt(count)
         }
     )
 
+    const cart = await db.get()
+        .collection(collection.CART_COLLECTION)
+        .findOne({ _id: new ObjectId(cartId) })
+
+    const product = cart.products.find(
+        p => p.item.toString() === proId
+    )
+
+    if (product && product.quantity <= 0) {
+        await module.exports.deleteCartProducts(proId, cart.user)
+    }
 },deleteCartProducts: async (proId,userId) => {
      await db.get().collection(collection.CART_COLLECTION).updateOne(
         { user: new ObjectId(userId) },
