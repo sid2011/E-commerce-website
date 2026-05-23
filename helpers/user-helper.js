@@ -12,29 +12,30 @@ module.exports={
         resolve(response)
 
        })
-    },doLogIn:(userData)=>{
-        return new Promise(async(resolve,reject)=>{
-       let loginStatus=false
-       let response={}
-       let user=await db.get().collection(collection.USER_COLLECTION).findOne({Email:userData.Email})
-       if(user){
-        bcrypt.compare(userData.password,user.password).then((loginStatus)=>{
-            if(loginStatus){
-                console.log("Login attempt success")
-                response.user = user
-                response.status = true
-                resolve(response)
-            }else{
-                console.log("Login attempt failed")
-                resolve({ status: false })
-            }
-        })
-       }else{
-            console.log("Invalid")
-            resolve({ status: false })
-        }
-        })
-    },addToCart: async (proId, userId) => {
+    },doLogIn: async (userData) => {
+
+    let response = {}
+
+    let user = await db.get()
+        .collection(collection.USER_COLLECTION)
+        .findOne({ email:userData.email })
+console.log("FOUND USER:", user)
+    if (!user) {
+        console.log("Invalid email")
+        return { status: false }
+    }
+    let status = await bcrypt.compare(userData.password, user.password)
+  console.log("PASSWORD MATCH:", status)
+    if (status) {
+        console.log("Login success")
+        response.user = user
+        response.status = true
+        return response
+    } else {
+        console.log("Login failed")
+        return { status: false }
+    }
+},addToCart: async (proId, userId) => {
     let proObj={
         item:new ObjectId(proId),
         quantity:1
@@ -98,7 +99,10 @@ let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
                 }
             }
 ]).toArray()
-   return cartItems
+
+return cartItems
+    
+   
 },
 
 getCartCount:async(userId)=>{

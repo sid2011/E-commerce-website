@@ -6,7 +6,12 @@
                 Go back
             </a>
         </div>
-
+{{#if cartEmpty}}
+<h1>Cart is empty</h1>
+<div class="empty-cart">
+<img src="/images/no-cart.jpg" alt="Empty Cart">
+</div>
+{{else}}
         <table class="table mt-3">
 
             <thead>
@@ -80,6 +85,6 @@
             </tbody>
 
         </table>
-
+{{/if}}
     </div>
 </section>

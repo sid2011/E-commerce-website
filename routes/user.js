@@ -6,24 +6,29 @@ const userHelper=require('../helpers/user-helper')
 
 /* GET home page. */
 const verify = (req, res, next) => {
-
-  if (req.session.loggedIn) {
+console.log("SESSION:", req.session)
+  if (req.session && req.session.user) {
     next()
   } else {
     res.redirect('/login')
   }
 
 }
-router.get('/',async function(req, res, next) {
-  let user=req.session.user
-  let cartCount=0
-   if (req.session.user) {
-    cartCount = await userHelper.getCartCount(req.session.user._id)
-  }
-  productHelper.getAllProducts().then((products)=>{
-  res.render('index', {products,user,cartCount});
-  });
-});
+router.get('/', verify, async (req, res) => {
+
+    let cartCount = await userHelper.getCartCount(req.session.user._id)
+
+    productHelper.getAllProducts().then((products) => {
+
+        res.render('index', {
+            products,
+            user: req.session.user,
+            cartCount
+        })
+
+    })
+
+})
 
 router.get('/login',(req,res)=>{
   if(req.session.loggedIn){
@@ -35,11 +40,11 @@ router.get('/login',(req,res)=>{
 
 router.post('/login',(req,res)=>{
   userHelper.doLogIn(req.body).then((response)=>{
-    if(response.status){
-      req.session.loggedIn=true
-      req.session.user=response.user
-      res.redirect('/')
-    }else{
+     if(response.status){
+    req.session.loggedIn=true
+     req.session.user=response.user
+       res.redirect('/')
+     }else{
       res.render('user-auth/login-page',{ loginErr: true })
     }
   })
@@ -55,12 +60,21 @@ router.post('/signup',(req,res)=>{
   })
 })
 router.get('/logout',(req,res)=>{
-  req.session.destroy()
-  res.redirect('/login')
+  req.session.loggedIn = false
+  req.session.user=null
+  req.session.destroy((err)=>{
+    if(err){
+      console.log(err)
+    }else{
+res.redirect('/login')
+    }
+  })
+  
 })
 router.get('/cart',verify,async(req,res)=>{
   let products = await userHelper.getCartProduct(req.session.user._id)
-    res.render('user/cart',{products,user:req.session.user})
+   let cartEmpty = products.length === 0
+    res.render('user/cart',{products,user:req.session.user,cartEmpty})
 })
 router.get('/add-to-cart/:id', verify, async (req, res) => {
   try {
