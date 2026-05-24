@@ -1,14 +1,15 @@
 <section>
     <div class="container">
-
         <div class="row mt-3">
-            <a href="/" class="btn btn-success ms-auto" style="width:11%">
-                Go back
-            </a>
-        </div>
+    <div class="col">
+        <a href="/" class="btn btn-success">
+            Go back
+        </a>
+    </div>
+</div>
 {{#if cartEmpty}}
-<h1>Cart is empty</h1>
 <div class="empty-cart">
+    <h1>Your Cart is empty</h1>
 <img src="/images/no-cart.jpg" alt="Empty Cart">
 </div>
 {{else}}
@@ -47,7 +48,7 @@
 
                     <td>{{this.product.category}}</td>
 
-                    <td>{{this.product.price}}</td>
+                    <td>₹{{this.product.price}}</td>
 
                     <td>
 
@@ -86,5 +87,9 @@
 
         </table>
 {{/if}}
+<h3 class="text-end mr-5 mt-5">Total:35000</h3>
+<a href="/place-order" class="btn btn-primary ms-auto d-block mt-5 mt-4" style="width: fit-content;">
+    Place-order
+</a>
     </div>
 </section>

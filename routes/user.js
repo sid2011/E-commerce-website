@@ -102,7 +102,9 @@ let proId=req.params.id
 let userId=req.params.userId
 await userHelper.deleteCartProducts(proId,userId).then(()=>{
   res.redirect('/cart')
-  console.log(heloi)
 })
+})
+router.get('/place-order',verify,(req,res)=>{
+  res.render('user/place-order')
 })
 module.exports = router;
