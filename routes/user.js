@@ -6,7 +6,7 @@ const userHelper=require('../helpers/user-helper')
 
 /* GET home page. */
 const verify = (req, res, next) => {
-console.log("SESSION:", req.session)
+//console.log("SESSION:", req.session)
   if (req.session && req.session.user) {
     next()
   } else {
@@ -78,7 +78,7 @@ router.get('/cart',verify,async(req,res)=>{
 })
 router.get('/add-to-cart/:id', verify, async (req, res) => {
   try {
-    console.log('API call')
+    //console.log('API call')
 
     await userHelper.addToCart(req.params.id, req.session.user._id)
 
@@ -104,7 +104,8 @@ await userHelper.deleteCartProducts(proId,userId).then(()=>{
   res.redirect('/cart')
 })
 })
-router.get('/place-order',verify,(req,res)=>{
+router.get('/place-order',verify,async(req,res)=>{
+  let total=await userHelper.getTotalAmount(req.session.user._id)
   res.render('user/place-order')
 })
 module.exports = router;

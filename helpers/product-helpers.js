@@ -6,7 +6,7 @@ module.exports = {
 
     addProducts: (products, callback) => {
 
-        console.log(products)
+       // console.log(products)
 
         db.get()
             .collection(collection.PRODUCT_COLLECTION)

@@ -19,20 +19,20 @@ module.exports={
     let user = await db.get()
         .collection(collection.USER_COLLECTION)
         .findOne({ email:userData.email })
-console.log("FOUND USER:", user)
+//console.log("FOUND USER:", user)
     if (!user) {
-        console.log("Invalid email")
+        //console.log("Invalid email")
         return { status: false }
     }
     let status = await bcrypt.compare(userData.password, user.password)
-  console.log("PASSWORD MATCH:", status)
+ // console.log("PASSWORD MATCH:", status)
     if (status) {
-        console.log("Login success")
+        //console.log("Login success")
         response.user = user
         response.status = true
         return response
     } else {
-        console.log("Login failed")
+        //console.log("Login failed")
         return { status: false }
     }
 },addToCart: async (proId, userId) => {
@@ -47,7 +47,7 @@ console.log("FOUND USER:", user)
 
     if (userCart) {
 let proExist=userCart.products.findIndex(product=>product.item.toString()==proId)
-console.log(proExist)
+//console.log(proExist)
 if(proExist!=-1){
    await db.get().collection(collection.CART_COLLECTION).updateOne({ user: new ObjectId(userId),'products.item':new ObjectId(proId)},
 {
@@ -68,7 +68,7 @@ await db.get()
             user: new ObjectId(userId),
             products: [proObj]
         }
-console.log(cartObj)
+//console.log(cartObj)
         await db.get()
             .collection(collection.CART_COLLECTION)
             .insertOne(cartObj)
@@ -149,6 +149,39 @@ changeQuantity: async (cartId, proId, count) => {
             }
         }
     )
+},getTotalAmount:async(userId)=>{
+let total=await db.get().collection(collection.CART_COLLECTION).aggregate([
+    {
+        $match:{user:new ObjectId(userId)}},
+        {
+            $unwind:'$products'
+        },{
+            $project:{
+                _id:1,
+                item:'$products.item',
+                quantity:'$products.quantity'
+            }
+        },{
+                $lookup:{
+                    from:collection.PRODUCT_COLLECTION,
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                }
+            },{
+                $project:{
+                    _id:1,item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
+                }
+            },{
+                $group:{
+                _id:null,
+                totalAmount:{
+      $sum:{$multiply:['$quantity',{ $toInt:'$product.price' }]}
+                }
+                }
+            }
+]).toArray()
+console.log(total)
 }}
 
 

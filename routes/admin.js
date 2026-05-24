@@ -26,7 +26,7 @@ productHelper.addProducts(req.body,(result)=>{
     }
   })
 })
-console.log(req.files.image)
+//console.log(req.files.image)
 })
 router.get('/delete-product/:id',(req,res)=>{
   let proId=req.params.id
