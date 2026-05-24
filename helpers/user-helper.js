@@ -181,7 +181,7 @@ let total=await db.get().collection(collection.CART_COLLECTION).aggregate([
                 }
             }
 ]).toArray()
-console.log(total)
+return total[0]?.totalAmount
 }}
 
 

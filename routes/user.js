@@ -73,8 +73,9 @@ res.redirect('/login')
 })
 router.get('/cart',verify,async(req,res)=>{
   let products = await userHelper.getCartProduct(req.session.user._id)
+  let totalValue=await userHelper.getTotalAmount(req.session.user._id)
    let cartEmpty = products.length === 0
-    res.render('user/cart',{products,user:req.session.user,cartEmpty})
+    res.render('user/cart',{products,user:req.session.user,cartEmpty,totalValue})
 })
 router.get('/add-to-cart/:id', verify, async (req, res) => {
   try {
@@ -106,6 +107,6 @@ await userHelper.deleteCartProducts(proId,userId).then(()=>{
 })
 router.get('/place-order',verify,async(req,res)=>{
   let total=await userHelper.getTotalAmount(req.session.user._id)
-  res.render('user/place-order')
+  res.render('user/place-order',{total})
 })
 module.exports = router;
