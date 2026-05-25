@@ -193,6 +193,7 @@ return total[0]?.totalAmount
         paymentMethod:order.paymentMethod,
         products:products,
         totalAmount:total,
+        date:new Date(),
         status:status
     }
    await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj)
@@ -202,10 +203,12 @@ return total[0]?.totalAmount
 
 getCartProductList:async(userId)=>{
     //console.log(userId,"this iis gven here")
-    let cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:new ObjectId(userId)})
+   try{
+let cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:new ObjectId(userId)})
+   }catch(err){
+    console.log(err)
+  alert("Hmm,Looks like you're cart is empty.")
+   }
     //console.log("**",cart)
 return cart.products
 }}
-
-
-
