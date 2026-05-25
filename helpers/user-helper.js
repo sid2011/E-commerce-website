@@ -192,6 +192,7 @@ return total[0]?.totalAmount
         },user:new ObjectId(order.userId),
         paymentMethod:order.paymentMethod,
         products:products,
+        totalAmount:total,
         status:status
     }
    await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj)
