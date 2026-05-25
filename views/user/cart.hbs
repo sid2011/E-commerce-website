@@ -1,18 +1,26 @@
 <section>
+    <section>
     <div class="container">
         <div class="row mt-3">
-    <div class="col">
-        <a href="/" class="btn btn-success">
-            Go back
-        </a>
-    </div>
-</div>
-{{#if cartEmpty}}
-<div class="empty-cart">
-    <h1>Your Cart is empty</h1>
-<img src="/images/no-cart.jpg" alt="Empty Cart">
-</div>
-{{else}}
+            <div class="col">
+                <a href="/" class="btn btn-success">
+                    Go back
+                </a>
+            </div>
+        </div>
+        {{#if cartEmpty}}
+
+        <div class="empty-cart text-center mt-5">
+            <h1>Your Cart is Empty</h1>
+            <img
+                src="/images/no-cart.jpg"
+                alt="Empty Cart"
+                style="max-width:300px; margin-top:20px;"
+            >
+        </div>
+
+        {{else}}
+
         <table class="table mt-3">
 
             <thead>
@@ -40,9 +48,9 @@
 
                     <td>
                         <img
-                            style="width:50px;height:50px"
                             src="/product-images/{{this.product._id}}.jpg"
                             alt=""
+                            style="width:50px;height:50px;"
                         >
                     </td>
 
@@ -66,19 +74,22 @@
                         <button
                             class="bg-success"
                             onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)"
-                        >+
+                        >
+                            +
                         </button>
 
                     </td>
 
                     <td>{{this.product.description}}</td>
-<td>
-                    <form action="/cart/delete-product/{{this.product._id}}/{{../user._id}}" method="post">
-    <button type="submit" class="btn btn-danger">
-        Delete
-    </button>
-</form>
-</td>
+
+                    <td>
+                        <form action="/cart/delete-product/{{this.product._id}}/{{../user._id}}" method="post">
+                            <button type="submit" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+
                 </tr>
 
                 {{/each}}
@@ -86,10 +97,23 @@
             </tbody>
 
         </table>
-{{/if}}
-<h3 class="text-end mr-5 mt-5" style="text-decoration: underline double black;">Total:₹<span id="total">{{totalValue}}</span></h3>
-<a href="/place-order" class="btn btn-primary ms-auto d-block mt-5 mt-4" style="width: fit-content;">
-    Place-order
-</a>
+
+        <h3
+            class="text-end me-5 mt-5"
+            style="text-decoration: underline double black;"
+        >
+            Total: ₹<span id="total">{{totalValue}}</span>
+        </h3>
+
+        <a
+            href="/place-order"
+            class="btn btn-primary ms-auto d-block mt-4"
+            style="width: fit-content;"
+        >
+            Place Order
+        </a>
+
+        {{/if}}
+
     </div>
 </section>

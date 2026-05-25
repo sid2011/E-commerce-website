@@ -1,41 +1,57 @@
-<div class="container">
-    <div class="checkout">
+<form id="checkout-form">
+    <div class="container">
+        <div class="checkout">
+            <!-- Left Side -->
+            <div class="delivery-form">
+                <h2>Enter Delivery Details</h2>
 
-        <!-- Left Side -->
-        <div class="delivery-form">
-            <h2>Enter Delivery Details</h2>
+                <label>Address</label>
+                <textarea name="address" placeholder="Enter your address" required></textarea>
 
-            <label>Address</label>
-            <textarea placeholder="Enter your address"></textarea>
+                <label>Pincode</label>
+                <input type="text" name="pincode" placeholder="Enter pincode" required>
 
-            <label>Pincode</label>
-            <input type="text" placeholder="Enter pincode">
+                <label>Mobile Number</label>
+                <input type="text" name="mobile" placeholder="Enter mobile number" required>
+            </div>
+<input type="text"name='userId' value="{{user._id}}" hidden>
+            <!-- Right Side -->
+            <div class="amount-box">
+                <h3>Total Amount</h3>
+                <h1>₹{{total}}</h1>
 
-            <label>Mobile Number</label>
-            <input type="text" placeholder="Enter mobile number">
-        </div>
+                <hr>
 
-        <!-- Right Side -->
-        <div class="amount-box">
-            <h3>Total Amount</h3>
-            <h1>₹{{total}}</h1>
+                <h4>Payment Method</h4>
 
-            <hr>
+                <div class="payment-option">
+                    <!-- ID NOT CHANGED -->
+                    <input type="radio" name="payment-method" id="cod" value="COD" required>
+                    <label for="cod">Cash on Delivery</label>
+                </div>
 
-            <h4>Payment Method</h4>
+                <div class="payment-option">
+                    <!-- ID NOT CHANGED -->
+                    <input type="radio" name="payment-method" id="online" value="ONLINE" required>
+                    <label for="online">Online Payment</label>
+                </div>
 
-            <div class="payment-option">
-                <input type="radio" name="payment" id="cod">
-                <label for="cod">Cash on Delivery</label>
+                <button type="submit" class="placeorderbtn">Place Order</button>
             </div>
 
-            <div class="payment-option">
-                <input type="radio" name="payment" id="online">
-                <label for="online">Online Payment</label>
-            </div>
-
-            <button type="submit" class="placeorderbtn">Place Order</button>
         </div>
-
     </div>
-</div>
+</form>
+<script>
+$('#checkout-form').submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/place-order',
+        method:'post',
+        data:$('#checkout-form').serialize(),
+        success:(response)=>{
+            alert(response)
+        }
+    })
+})
+</script>
