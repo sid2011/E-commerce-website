@@ -110,7 +110,11 @@ router.get('/place-order',verify,async(req,res)=>{
   res.render('user/place-order',{total, user: req.session.user})
 })
 router.post('/place-order',async(req,res)=>{
-  console.log(req.body)
- 
+ let productList=await userHelper.getCartProductList(req.body.userId)
+ //console.log(req.body.userId,"Check macha")
+let totalPrice=await userHelper.getTotalAmount(req.body.userId)
+ await userHelper.placeOrder(req.body,products,totalAmount).then((response)=>{
+
+ })
 })
 module.exports = router;
