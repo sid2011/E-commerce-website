@@ -183,19 +183,19 @@ let total=await db.get().collection(collection.CART_COLLECTION).aggregate([
 ]).toArray()
 return total[0]?.totalAmount
 },placeOrder:async(order,products,total)=>{
-    let status = order.payment-method === 'COD' ? 'placed' : 'pending';
+    let status = order.paymentMethod === 'COD' ? 'placed' : 'pending';
     let orderObj={
         deliveryDetails:{
             mobile:order.mobile,
             address:order.address,
             pincode:order.pincode
         },user:new ObjectId(order.userId),
-        paymentMethod:order.payment-method,
+        paymentMethod:order.paymentMethod,
         products:products,
         status:status
     }
-   await db.get.collection(collection.ORDER_COLLECTION).insertOne(orderObj)
-   
+   await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj)
+
 },
 
 getCartProductList:async(userId)=>{
