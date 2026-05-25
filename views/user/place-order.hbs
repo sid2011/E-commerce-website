@@ -51,7 +51,7 @@ $('#checkout-form').submit((e)=>{
         data:$('#checkout-form').serialize(),
         success:(response)=>{
            if(response.status){
-            location.href('/')
+            location.href='/order-success'
            }
         }
     })

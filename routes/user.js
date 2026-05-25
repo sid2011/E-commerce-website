@@ -121,4 +121,7 @@ router.get('/all-orders',verify,async(req,res)=>{
 let orderlist=await userHelper.getOrderList(req.session.user._id)
   res.render('user/all-orders',{orderlist})
 })
+router.get('/order-success',(req,res)=>{
+res.render('user/order-success')
+})
 module.exports = router;

@@ -201,17 +201,17 @@ return total[0]?.totalAmount
 
 },
 
-getCartProductList:async(userId)=>{
-    //console.log(userId,"koplop")
-    let cart;
-   try{
-cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:new ObjectId(userId)})
-   }catch(err){
-    console.log(err)
-  alert("Hmm,Looks like you're cart is empty.")
-   }
-    // console.log("**",cart)
-return cart.products
+getCartProductList: async (userId) => {
+  try {
+    const cart = await db.get()
+      .collection(collection.CART_COLLECTION)
+      .findOne({ user: new ObjectId(userId) });
+
+    return cart?.products || [];
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 },
 getOrderList:async(userId)=>{
 let orderItems=await db.get().collection(collection.ORDER_COLLECTION).aggregate([
