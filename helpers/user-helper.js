@@ -182,7 +182,7 @@ let total=await db.get().collection(collection.CART_COLLECTION).aggregate([
             }
 ]).toArray()
 return total[0]?.totalAmount
-},placeOrder:async(order,products,total)=>{
+},placeOrder:async(userId,order,products,total)=>{
     let status = order.paymentMethod === 'COD' ? 'placed' : 'pending';
     let orderObj={
         deliveryDetails:{
@@ -196,6 +196,7 @@ return total[0]?.totalAmount
         status:status
     }
    await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj)
+   await db.get().collection(collection.CART_COLLECTION).deleteOne({user:new ObjectId(userId)})
 
 },
 
