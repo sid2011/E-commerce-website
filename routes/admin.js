@@ -47,10 +47,10 @@ productHelper.updateProduct(req.params.id,req.body).then(()=>{
   }
 })
 })
-router.get('/admin/all-orders',(req,res)=>{
+router.get('/all-orders',(req,res)=>{
   res.render('admin/all-orders',{admin:true})
 })
-router.get('/admin/all-users',(req,res)=>{
-  res.render('admin/view-users')
+router.get('/all-users',(req,res)=>{
+  res.render('admin/view-users',{admin:true})
 })
 module.exports = router;
