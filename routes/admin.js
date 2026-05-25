@@ -47,9 +47,6 @@ productHelper.updateProduct(req.params.id,req.body).then(()=>{
   }
 })
 })
-router.get('/all-orders',(req,res)=>{
-  res.render('admin/all-orders',{admin:true})
-})
 router.get('/all-users',(req,res)=>{
   res.render('admin/view-users',{admin:true})
 })

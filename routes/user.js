@@ -117,4 +117,7 @@ let totalAmount=await userHelper.getTotalAmount(req.body.userId)
 res.json({status:true})
  })
 })
+router.get('/all-orders',(req,res)=>{
+  res.render('user/all-orders',{admin:true})
+})
 module.exports = router;
