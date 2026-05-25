@@ -202,13 +202,33 @@ return total[0]?.totalAmount
 },
 
 getCartProductList:async(userId)=>{
-    //console.log(userId,"this iis gven here")
+    //console.log(userId,"koplop")
+    let cart;
    try{
-let cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:new ObjectId(userId)})
+cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:new ObjectId(userId)})
    }catch(err){
     console.log(err)
   alert("Hmm,Looks like you're cart is empty.")
    }
-    //console.log("**",cart)
+    // console.log("**",cart)
 return cart.products
-}}
+},
+getOrderList:async(userId)=>{
+let orderItems=await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+      {
+        $match:{user:new ObjectId(userId)}
+      },{
+            $project:{
+                item:'$products',
+                total:'$totalAmount',
+                status:'$status',
+                date:'$date',
+                address:'$deliveryDetails.address',
+                paymentMethod:'$paymentMethod',
+                pincode:'$deliveryDetails.pincode'
+            }
+        }
+]).toArray()
+return orderItems
+}
+}

@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const productHelper=require('../helpers/product-helpers');
-const userHelper=require('../helpers/user-helper')
+const userHelper=require('../helpers/user-helper');
+const collections = require('../config/collections');
+const { ObjectId } = require('mongodb');
 
 
 /* GET home page. */
 const verify = (req, res, next) => {
-//console.log("SESSION:", req.session)
   if (req.session && req.session.user) {
     next()
   } else {
@@ -111,13 +112,13 @@ router.get('/place-order',verify,async(req,res)=>{
 })
 router.post('/place-order',async(req,res)=>{
  let productList=await userHelper.getCartProductList(req.body.userId)
- //console.log(req.body.userId,"Check macha")
 let totalAmount=await userHelper.getTotalAmount(req.body.userId)
  await userHelper.placeOrder(req.body.userId,req.body,productList,totalAmount).then((response)=>{
 res.json({status:true})
  })
 })
-router.get('/all-orders',(req,res)=>{
-  res.render('user/all-orders',{admin:true})
+router.get('/all-orders',verify,async(req,res)=>{
+let orderlist=await userHelper.getOrderList(req.session.user._id)
+  res.render('user/all-orders',{orderlist})
 })
 module.exports = router;
