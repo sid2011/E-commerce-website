@@ -3,7 +3,12 @@ const collection=require('../config/collections')
 const bcrypt=require('bcrypt')
 const { ObjectId } = require('mongodb')
 const { log } = require('node:console')
-
+const Razorpay = require('razorpay');
+const secret = process.env.RAZORPAY_KEY_SECRET
+var instance = new Razorpay({
+  key_id: 'rzp_test_Stu1nTmBRweYK4',
+  key_secret:secret,
+});
 module.exports={
     doSignUp:(userData)=>{
        return new Promise(async(resolve,reject)=>{
@@ -183,7 +188,8 @@ let total=await db.get().collection(collection.CART_COLLECTION).aggregate([
 ]).toArray()
 return total[0]?.totalAmount
 },placeOrder:async(userId,order,products,total)=>{
-    let status = order.paymentMethod === 'COD' ? 'placed' : 'pending';
+    return new Promise((resolve,reject)=>{
+let status = order.paymentMethod === 'COD' ? 'placed' : 'pending';
     let orderObj={
         deliveryDetails:{
             mobile:order.mobile,
@@ -196,8 +202,12 @@ return total[0]?.totalAmount
         date:new Date(),
         status:status
     }
-   await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj)
-   await db.get().collection(collection.CART_COLLECTION).deleteOne({user:new ObjectId(userId)})
+ db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
+db.get().collection(collection.CART_COLLECTION).deleteOne({user:new ObjectId(userId)})
+resolve(response.insertedId)
+   })
+    })
+    
 
 },
 
@@ -228,7 +238,25 @@ let orderItems=await db.get().collection(collection.ORDER_COLLECTION).aggregate(
                 pincode:'$deliveryDetails.pincode'
             }
         }
-]).toArray()
+])
 return orderItems
+},
+generateRazorpay:(orderId, total) => {
+  return new Promise((resolve, reject) => {
+    const options = {
+      amount: total, // amount in paise
+      currency: "INR",
+      receipt: orderId,
+    };
+
+    instance.orders.create(options, (err, order) => {
+      if (err) {
+        reject(err);
+      } else {
+        console.log("New order",order)
+        resolve(order);
+      }
+    });
+  });
 }
 }
