@@ -2,19 +2,28 @@ var express = require('express');
 var router = express.Router();
 const path=require('path')
 const productHelper=require('../helpers/product-helpers');
+const adminHelper=require('../helpers/admin-helper')
 const { log } = require('console');
 
+const verify = (req, res, next) => {
+  if (req.session && req.session.admin) {
+    next()
+  } else {
+    res.redirect('/admin/login')
+  }
+
+}
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/',verify, function(req, res, next) {
   productHelper.getAllProducts().then((products)=>{
   res.render('admin/view-products',{admin:true,products})
   })
 
 });
-router.get('/add-product', (req, res) => {
+router.get('/add-product',verify, (req, res) => {
     res.render('admin/add-product');
 });
-router.post('/add-product',(req,res)=>{
+router.post('/add-product',verify,(req,res)=>{
 
 productHelper.addProducts(req.body,(result)=>{
   let image=req.files.image
@@ -28,17 +37,17 @@ productHelper.addProducts(req.body,(result)=>{
 })
 //console.log(req.files.image)
 })
-router.get('/delete-product/:id',(req,res)=>{
+router.get('/delete-product/:id',verify,(req,res)=>{
   let proId=req.params.id
   productHelper.deleteProduct(proId).then((response)=>{
     res.redirect('/admin')
   })
 })
-router.get('/edit-product/:id', async(req, res) => {
+router.get('/edit-product/:id', verify,async(req, res) => {
   let product=await productHelper.getProductDetails(req.params.id)
   res.render('admin/edit-product',{product});
 });
-router.post('/edit-product/:id',(req,res)=>{
+router.post('/edit-product/:id',verify,(req,res)=>{
 productHelper.updateProduct(req.params.id,req.body).then(()=>{
  res.redirect('/admin')
   if(req.files.image){
@@ -46,5 +55,25 @@ productHelper.updateProduct(req.params.id,req.body).then(()=>{
      image.mv('./public/product-images/' + req.params.id + '.jpg')
   }
 })
+})
+router.get('/login',(req,res)=>{
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }else{
+ res.render('admin-auth/admin-login')
+  }
+})
+
+router.post('/login',(req,res)=>{
+  adminHelper.doLogIn(req.body).then((response)=>{
+     if(response.status){
+    req.session.loggedIn=true
+     req.session.user=response.admin
+       res.redirect('/')
+     }else{
+      res.render('admin-auth/admin-login',{ loginErr: true })
+    }
+  })
+
 })
 module.exports = router;

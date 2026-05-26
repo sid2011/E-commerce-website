@@ -13,8 +13,8 @@ const verify = (req, res, next) => {
   } else {
     res.redirect('/login')
   }
-
 }
+
 router.get('/', verify, async (req, res) => {
 
     let cartCount = await userHelper.getCartCount(req.session.user._id)
