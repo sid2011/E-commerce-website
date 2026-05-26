@@ -4,10 +4,11 @@ const bcrypt=require('bcrypt')
 const { ObjectId } = require('mongodb')
 const { log } = require('node:console')
 const Razorpay = require('razorpay');
-const secret = process.env.RAZORPAY_KEY_SECRET
+const secretkey = process.env.RAZORPAY_KEY_SECRET
+const razorpay_keyId=process.env.RAZORPAY_KEY_ID
 var instance = new Razorpay({
-  key_id: 'rzp_test_Stu1nTmBRweYK4',
-  key_secret:secret,
+  key_id:process.env.RAZORPAY_KEY_ID ,
+  key_secret:process.env.RAZORPAY_KEY_SECRET,
 });
 module.exports={
     doSignUp:(userData)=>{
@@ -203,7 +204,6 @@ let status = order.paymentMethod === 'COD' ? 'placed' : 'pending';
         status:status
     }
  db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
-db.get().collection(collection.CART_COLLECTION).deleteOne({user:new ObjectId(userId)})
 resolve(response.insertedId)
    })
     })
@@ -244,11 +244,12 @@ return orderItems
 generateRazorpay:(orderId, total) => {
   return new Promise((resolve, reject) => {
     const options = {
-      amount: total, // amount in paise
+      amount: total*100, // amount in paise
       currency: "INR",
       receipt: orderId,
     };
-
+console.log("DB Total =", total)
+console.log("Razorpay Amount =", total * 100)
     instance.orders.create(options, (err, order) => {
       if (err) {
         reject(err);

@@ -113,7 +113,8 @@ router.get('/place-order',verify,async(req,res)=>{
 router.post('/place-order', async (req, res) => {
   try {
     let productList = await userHelper.getCartProductList(req.body.userId);
-
+console.log("BODY:", req.body)
+console.log("USER ID:", req.body.userId)
     let totalAmount = await userHelper.getTotalAmount(req.body.userId);
 
     let orderId = await userHelper.placeOrder(
@@ -122,9 +123,11 @@ router.post('/place-order', async (req, res) => {
       productList,
       totalAmount
     );
-
+console.log("BODY:", req.body)
+console.log("USER ID:", req.body.userId)
+console.log("TOTAL AMOUNT:", totalAmount)
     if (req.body.paymentMethod === "COD") {
-      res.json({ status: true });
+      res.json({ cod_success: true });
     } else {
       let response = await userHelper.generateRazorpay(
         orderId,
