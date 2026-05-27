@@ -21,7 +21,7 @@ router.get('/',verify, function(req, res, next) {
 
 });
 router.get('/add-product',verify, (req, res) => {
-    res.render('admin/add-product');
+    res.render('admin/add-product',{admin:true});
 });
 router.post('/add-product',verify,(req,res)=>{
 
@@ -45,7 +45,7 @@ router.get('/delete-product/:id',verify,(req,res)=>{
 })
 router.get('/edit-product/:id', verify,async(req, res) => {
   let product=await productHelper.getProductDetails(req.params.id)
-  res.render('admin/edit-product',{product});
+  res.render('admin/edit-product',{admin:true,product});
 });
 router.post('/edit-product/:id',verify,(req,res)=>{
 productHelper.updateProduct(req.params.id,req.body).then(()=>{
@@ -60,7 +60,7 @@ router.get('/login',(req,res)=>{
   if(req.session.loggedIn){
     res.redirect('/')
   }else{
- res.render('admin-auth/admin-login')
+ res.render('admin-auth/admin-login',{admin:true})
   }
 })
 
@@ -68,12 +68,15 @@ router.post('/login',(req,res)=>{
   adminHelper.doLogIn(req.body).then((response)=>{
      if(response.status){
     req.session.loggedIn=true
-     req.session.user=response.admin
-       res.redirect('/')
+     req.session.admin=response.admin
+       res.redirect('/admin')
      }else{
-      res.render('admin-auth/admin-login',{ loginErr: true })
+      res.render('admin-auth/admin-login',{ loginErr: true,admin:true })
     }
   })
 
 })
+router.get('/all-orders', verify, (req, res) => {
+  res.render('admin/view-orders',{admin:true});
+});
 module.exports = router;
