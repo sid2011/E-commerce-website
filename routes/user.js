@@ -123,11 +123,12 @@ console.log("USER ID:", req.body.userId)
       productList,
       totalAmount
     );
-console.log("BODY:", req.body)
-console.log("USER ID:", req.body.userId)
-console.log("TOTAL AMOUNT:", totalAmount)
+// console.log("BODY:", req.body)
+// console.log("USER ID:", req.body.userId)
+// console.log("TOTAL AMOUNT:", totalAmount)
     if (req.body.paymentMethod === "COD") {
       res.json({ cod_success: true });
+      await userHelper.deleteAllCartProducts(req.session.user._id)
     } else {
       let response = await userHelper.generateRazorpay(
         orderId,
@@ -149,7 +150,16 @@ let orderlist=await userHelper.getOrderList(req.session.user._id)
 router.get('/order-success',(req,res)=>{
 res.render('user/order-success')
 })
-router.post('/verify-payment',(req,res)=>{
-console.log(req.body)
+router.post('/verify-payment', async (req, res) => {
+  try {
+    console.log("1. Request received")
+    await userHelper.verifyPayment(req.body)
+      console.log("2. Payment verified")
+    await userHelper.deleteAllCartProducts(req.session.user._id)
+    res.json({ status: true })
+  } catch (err) {
+    console.log(err)
+    res.json({ status: false, message: "Payment failed" })
+  }
 })
 module.exports = router;

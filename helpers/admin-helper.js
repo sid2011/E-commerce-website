@@ -27,5 +27,12 @@ doLogIn: async (adminData) => {
         //console.log("Login failed")
         return { status: false }
     }
+},getUserOrderDetails:async()=>{
+let orderDetails=await db.get().collection(collection.ORDER_COLLECTION).find({status:"placed"}).toArray()
+return orderDetails
+},getUserName:async(userId)=>{
+    console.log("userId",userId)
+let userDetails=await db.get().collection(collection.USER_COLLECTION).findOne({_id:new ObjectId(userId)})
+return userDetails
 }
 }

@@ -76,7 +76,10 @@ router.post('/login',(req,res)=>{
   })
 
 })
-router.get('/all-orders', verify, (req, res) => {
-  res.render('admin/view-orders',{admin:true});
+router.get('/all-orders', verify, async(req, res) => {
+ let orderDetails=await adminHelper.getUserOrderDetails()
+  let userDetails=await adminHelper.getUserName(orderDetails.user)
+  res.render('admin/view-orders',{admin:true,orderDetails,userDetails});
+  console.log("this is userdetails",userDetails)
 });
 module.exports = router;

@@ -259,5 +259,22 @@ console.log("Razorpay Amount =", total * 100)
       }
     });
   });
-}
-}
+},verifyPayment:(details)=>{
+return new Promise((resolve,reject)=>{
+    console.log("hi klopppppppppp",details.payment)
+    const crypto = require('crypto')
+    let hmac = crypto.createHmac('sha256',process.env.RAZORPAY_KEY_SECRET)
+ hmac.update(
+  details.payment.razorpay_order_id + '|' +
+  details.payment.razorpay_payment_id
+)
+    hmac=hmac.digest('hex')
+    if(hmac==details.payment.razorpay_signature){
+        resolve()
+    }else{
+        reject()
+    }
+})
+},deleteAllCartProducts:async(userId)=>{
+await db.get().collection(collection.CART_COLLECTION).deleteOne({user:new ObjectId(userId)})
+}}
