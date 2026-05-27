@@ -238,7 +238,7 @@ let orderItems=await db.get().collection(collection.ORDER_COLLECTION).aggregate(
                 pincode:'$deliveryDetails.pincode'
             }
         }
-])
+]).toArray()
 return orderItems
 },
 generateRazorpay:(orderId, total) => {
