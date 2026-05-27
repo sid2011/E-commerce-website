@@ -152,9 +152,17 @@ res.render('user/order-success')
 })
 router.post('/verify-payment', async (req, res) => {
   try {
-    console.log("1. Request received")
+    //console.log("1. Request received")
     await userHelper.verifyPayment(req.body)
-      console.log("2. Payment verified")
+      //console.log("2. Payment verified")
+      await db.get().collection(collections.ORDER_COLLECTION).updateOne(
+    { user: new ObjectId(req.session._id) },
+    {
+      $set: {
+        status: "placed"
+      }
+    }
+  )
     await userHelper.deleteAllCartProducts(req.session.user._id)
     res.json({ status: true })
   } catch (err) {
