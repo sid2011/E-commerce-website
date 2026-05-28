@@ -72,6 +72,7 @@ function razorpayPayment(order) {
 
         handler: function (response) {
             verifyPayment(response, order);
+           console.log("RAZORPAY RESPONSE:", response);
         },
 
         prefill: {
@@ -92,22 +93,23 @@ function razorpayPayment(order) {
     var rzp1 = new Razorpay(options);
     rzp1.open();
 }
-
 function verifyPayment(payment, order) {
-    $.ajax({
-        url: '/verify-payment',
-        method: 'post',
-        data: {
-            payment: payment,
-            order: order
-        },
-        success: (response) => {
-            if (response.status === true) {
-                location.href = '/order-success';
-            } else {
-                alert("Payment verification failed");
-            }
-        }
-    });
+  $.ajax({
+    url: '/verify-payment',
+    method: 'post',
+    data: {
+      razorpay_payment_id: payment.razorpay_payment_id,
+      razorpay_order_id: payment.razorpay_order_id,
+      razorpay_signature: payment.razorpay_signature,
+      order: order
+    },
+    success: (response) => {
+      if (response.status === true) {
+        location.href = '/order-success';
+      } else {
+        alert("Payment verification failed");
+      }
+    }
+  });
 }
 </script>

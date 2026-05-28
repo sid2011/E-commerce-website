@@ -4,7 +4,7 @@ const productHelper=require('../helpers/product-helpers');
 const userHelper=require('../helpers/user-helper');
 const collections = require('../config/collections');
 const { ObjectId } = require('mongodb');
-
+const db = require('../config/connection')
 
 /* GET home page. */
 const verify = (req, res, next) => {
@@ -151,23 +151,30 @@ router.get('/order-success',(req,res)=>{
 res.render('user/order-success')
 })
 router.post('/verify-payment', async (req, res) => {
+  console.log("VERIFY BODY:", req.body);
+
   try {
-    //console.log("1. Request received")
-    await userHelper.verifyPayment(req.body)
-      //console.log("2. Payment verified")
-      await db.get().collection(collections.ORDER_COLLECTION).updateOne(
-    { user: new ObjectId(req.session._id) },
-    {
-      $set: {
-        status: "placed"
-      }
+
+    const isValid = userHelper.verifyPayment(req.body);
+
+    if (!isValid) {
+      return res.json({ status: false });
     }
-  )
-    await userHelper.deleteAllCartProducts(req.session.user._id)
-    res.json({ status: true })
+
+    const userId = req.body.order.userId; // 👈 BEST FIX
+
+    await db.get().collection(collections.ORDER_COLLECTION).updateOne(
+      { razorpay_order_id: req.body.razorpay_order_id },
+      { $set: { status: "placed" } }
+    );
+
+    await userHelper.deleteAllCartProducts(userId);
+
+    res.json({ status: true });
+
   } catch (err) {
-    console.log(err)
-    res.json({ status: false, message: "Payment failed" })
+    console.log(err);
+    res.json({ status: false });
   }
-})
+});
 module.exports = router;
