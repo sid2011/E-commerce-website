@@ -268,19 +268,26 @@ console.log("Razorpay Amount =", total * 100)
   );
 
   hmac.update(
-    details.payment.razorpay_order_id +
-    "|" +
-    details.payment.razorpay_payment_id
+    details.razorpay_order_id + "|" + details.razorpay_payment_id
   );
 
   const generatedSignature = hmac.digest("hex");
 
   console.log("GENERATED:", generatedSignature);
-  console.log("RECEIVED:", details.payment.razorpay_signature);
+  console.log("RECEIVED:", details.razorpay_signature);
 
-  return generatedSignature === details.payment.razorpay_signature;
+  return generatedSignature === details.razorpay_signature;
 },deleteAllCartProducts: async (userId) => {
-  return await db.get().collection(collection.CART_COLLECTION).deleteOne({
-    user: new ObjectId(userId)
-  });
+  const db = require('../config/connection');
+  const collection = require('../config/collections');
+  const { ObjectId } = require('mongodb');
+console.log("Hi this is my userId commu",userId)
+  return await db.get().collection(collection.CART_COLLECTION).updateOne(
+    { user: new ObjectId(userId) },
+    {
+      $set: {
+        products: []
+      }
+    }
+  );
 }}

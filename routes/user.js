@@ -152,7 +152,7 @@ res.render('user/order-success')
 })
 router.post('/verify-payment', async (req, res) => {
   console.log("VERIFY BODY:", req.body);
-
+const USERID = req.session.user._id;
   try {
 
     const isValid = userHelper.verifyPayment(req.body);
@@ -160,15 +160,12 @@ router.post('/verify-payment', async (req, res) => {
     if (!isValid) {
       return res.json({ status: false });
     }
-
-    const userId = req.body.order.userId; // 👈 BEST FIX
-
     await db.get().collection(collections.ORDER_COLLECTION).updateOne(
       { razorpay_order_id: req.body.razorpay_order_id },
       { $set: { status: "placed" } }
     );
 
-    await userHelper.deleteAllCartProducts(userId);
+    await userHelper.deleteAllCartProducts(USERID);
 
     res.json({ status: true });
 
