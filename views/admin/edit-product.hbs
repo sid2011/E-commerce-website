@@ -1,77 +1,115 @@
-<form action="/admin/edit-product/{{product._id}}" method="POST" enctype="multipart/form-data">
-<h1>Edit product</h1>
-  <div class="row">
+<section class="py-4">
+  <div class="container" style="max-width: 720px;">
 
-    <div class="col-md-6 mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input 
-        type="text" 
-        class="form-control" 
-        id="name" 
-        name="name" 
-        placeholder="Enter name"
-        value="{{product.name}}"
-      />
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Edit Product</h2>
+        <p class="text-muted small mb-0">Update the product information and image</p>
+      </div>
+
+      <a href="/admin" class="btn btn-outline-secondary rounded-pill px-3 py-2 btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Back to Inventory
+      </a>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <label for="category" class="form-label">Category</label>
-      <input 
-        type="text" 
-        class="form-control" 
-        id="category" 
-        name="category" 
-        placeholder="Enter category"
-        value="{{product.category}}"
-      />
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+      <form action="/admin/edit-product/{{product._id}}" method="POST" enctype="multipart/form-data">
+
+        <div class="row g-3">
+
+          <div class="col-md-12">
+            <label for="name" class="form-label fw-semibold text-dark">Product Title</label>
+            <input 
+              type="text" 
+              class="form-control form-control-custom" 
+              id="name" 
+              name="name" 
+              value="{{product.name}}"
+              required
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label for="category" class="form-label fw-semibold text-dark">Category</label>
+            <input 
+              type="text" 
+              class="form-control form-control-custom" 
+              id="category" 
+              name="category" 
+              value="{{product.category}}"
+              required
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label for="price" class="form-label fw-semibold text-dark">Price (INR ₹)</label>
+            <input 
+              type="number" 
+              class="form-control form-control-custom" 
+              id="price" 
+              name="price" 
+              value="{{product.price}}"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="col-md-12">
+            <label for="image" class="form-label fw-semibold text-dark">Change Product Image (Optional)</label>
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <img 
+                src="/product-images/{{product._id}}.jpg" 
+                alt="{{product.name}}" 
+                class="rounded-3 border p-1"
+                style="width: 70px; height: 70px; object-fit: contain; background: #fff;" 
+                id="imgView"
+                onerror="this.onerror=null; this.src='https://placehold.co/100x100/e2e8f0/475569?text=IMG';"
+              >
+              <div class="flex-grow-1">
+                <input 
+                  type="file" 
+                  class="form-control form-control-custom" 
+                  id="image" 
+                  name="image"
+                  accept="image/*"
+                  onchange="viewImage(event)"
+                />
+                <small class="text-muted">Leave empty to keep the existing product photo</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <label for="description" class="form-label fw-semibold text-dark">Description</label>
+            <textarea 
+              class="form-control form-control-custom" 
+              id="description" 
+              name="description" 
+              rows="4"
+              required
+            >{{product.description}}</textarea>
+          </div>
+
+          <div class="col-12 mt-4 d-flex justify-content-end gap-2">
+            <a href="/admin" class="btn btn-light rounded-pill px-4 py-2">Cancel</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+              <i class="bi bi-check2-circle me-1"></i> Update Changes
+            </button>
+          </div>
+
+        </div>
+
+      </form>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <label for="price" class="form-label">Price</label>
-      <input 
-        type="number" 
-        class="form-control" 
-        id="price" 
-        name="price" 
-        placeholder="Enter price"
-        value="{{product.price}}"
-      />
-    </div>
- <div class="col-md-6 mb-3">
-      <label for="category" class="form-label">Description</label>
-      <input 
-        type="text" 
-        class="form-control" 
-        id="Description" 
-        name="description" 
-        placeholder="Enter description"
-        value="{{product.description}}"
-      />
-    </div>
-   <div class="col-md-6 mb-3">
-  <label for="image" class="form-label">Image of product</label>
-
-  <img 
-    src="/product-images/{{product._id}}.jpg" 
-    alt="{{product.name}}" 
-    style="width: 50px; height:100px" 
-    id="imgView"class="pt-3"
-  >
-
-  <input 
-    type="file" 
-    class="form-control" 
-    id="image" 
-    name="image"
-    onchange="viewImage(event)"
-  />
-</div>
-
-<button type="submit" class="btn btn-primary" style="height: 50%;width:20%">Submit</button>
+  </div>
+</section>
 
 <script>
   function viewImage(event) {
-    document.getElementById('imgView').src =
-      URL.createObjectURL(event.target.files[0]);
+    if (event.target.files && event.target.files[0]) {
+      document.getElementById('imgView').src =
+        URL.createObjectURL(event.target.files[0]);
+    }
   }
 </script>

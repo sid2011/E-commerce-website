@@ -1,16 +1,60 @@
-<form action="/signup" method="post">
-<h1>Create New Account Here!!</h1>
-    <label>Name</label>
-    <input type="text" name="name" placeholder="Enter your name">
+<div class="auth-wrapper">
+  <div class="auth-card">
 
-    <label>Email address</label>
-    <input type="email" name="email" placeholder="Enter email">
+    <div class="auth-header">
+      <a href="/" class="brand-logo justify-content-center text-decoration-none mb-2">
+        <i class="bi bi-bag-heart-fill"></i>
+        <span>NexStore</span>
+      </a>
+      <h2 class="auth-title">Create an Account</h2>
+      <p class="auth-subtitle">Join NexStore for the best tech products and seamless checkout</p>
+    </div>
 
-    <label>Password</label>
-    <input type="password" name="password" placeholder="Password">
+    <form action="/signup" method="post">
 
-    <button type="submit" class="login-btn">
-        Get started!!
-    </button>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold text-dark">Full Name</label>
+        <input 
+          type="text" 
+          name="name" 
+          class="form-control form-control-custom" 
+          placeholder="e.g. John Doe" 
+          required
+        >
+      </div>
 
-</form>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold text-dark">Email Address</label>
+        <input 
+          type="email" 
+          name="email" 
+          class="form-control form-control-custom" 
+          placeholder="name@example.com" 
+          required
+        >
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label small fw-semibold text-dark">Password</label>
+        <input 
+          type="password" 
+          name="password" 
+          class="form-control form-control-custom" 
+          placeholder="At least 6 characters" 
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn-auth-primary mb-3">
+        Get Started
+      </button>
+
+      <div class="text-center small text-muted">
+        Already have an account? 
+        <a href="/login" class="text-primary fw-bold text-decoration-none">Sign In</a>
+      </div>
+
+    </form>
+
+  </div>
+</div>

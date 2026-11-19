@@ -1,62 +1,110 @@
-<form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+<section class="py-4">
+  <div class="container" style="max-width: 720px;">
 
-  <div class="row">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Add New Product</h2>
+        <p class="text-muted small mb-0">Fill in the product details to publish to your catalog</p>
+      </div>
 
-    <div class="col-md-6 mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input 
-        type="text" 
-        class="form-control" 
-        id="name" 
-        name="name" 
-        placeholder="Enter name"
-      />
+      <a href="/admin" class="btn btn-outline-secondary rounded-pill px-3 py-2 btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Back to Inventory
+      </a>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <label for="category" class="form-label">Category</label>
-      <input 
-        type="text" 
-        class="form-control" 
-        id="category" 
-        name="category" 
-        placeholder="Enter category"
-      />
-    </div>
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+      <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
 
-    <div class="col-md-6 mb-3">
-      <label for="price" class="form-label">Price</label>
-      <input 
-        type="number" 
-        class="form-control" 
-        id="price" 
-        name="price" 
-        placeholder="Enter price"
-      />
-    </div>
+        <div class="row g-3">
 
-    <div class="col-md-6 mb-3">
-      <label for="image" class="form-label">Image (only image types accepted)</label>
-      <input 
-        type="file" 
-        class="form-control" 
-        id="image" 
-        name="image"
-      />
-    </div>
+          <div class="col-md-12">
+            <label for="name" class="form-label fw-semibold text-dark">Product Title</label>
+            <input 
+              type="text" 
+              class="form-control form-control-custom" 
+              id="name" 
+              name="name" 
+              placeholder="e.g. Wireless Noise-Cancelling Headphones"
+              required
+            />
+          </div>
 
-    <div class="col-md-12 mb-3">
-      <label for="description" class="form-label">Description</label>
-      <textarea 
-        class="form-control" 
-        id="description" 
-        name="description" 
-        rows="4"
-        placeholder="Enter description"
-      ></textarea>
+          <div class="col-md-6">
+            <label for="category" class="form-label fw-semibold text-dark">Category</label>
+            <input 
+              type="text" 
+              class="form-control form-control-custom" 
+              id="category" 
+              name="category" 
+              placeholder="e.g. Audio, Mobile, Laptop"
+              required
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label for="price" class="form-label fw-semibold text-dark">Price (INR ₹)</label>
+            <input 
+              type="number" 
+              class="form-control form-control-custom" 
+              id="price" 
+              name="price" 
+              placeholder="e.g. 2999"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="col-md-12">
+            <label for="image" class="form-label fw-semibold text-dark">Product Image</label>
+            <input 
+              type="file" 
+              class="form-control form-control-custom" 
+              id="image" 
+              name="image"
+              accept="image/*"
+              onchange="previewImage(event)"
+              required
+            />
+            <div class="mt-2 text-center d-none" id="previewContainer">
+              <img id="imagePreview" src="#" alt="Preview" class="rounded-3 border p-1" style="max-height: 140px; object-fit: contain;">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <label for="description" class="form-label fw-semibold text-dark">Description</label>
+            <textarea 
+              class="form-control form-control-custom" 
+              id="description" 
+              name="description" 
+              rows="4"
+              placeholder="Provide a detailed description of features, specs, and materials..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="col-12 mt-4 d-flex justify-content-end gap-2">
+            <a href="/admin" class="btn btn-light rounded-pill px-4 py-2">Cancel</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+              <i class="bi bi-cloud-arrow-up me-1"></i> Save Product
+            </button>
+          </div>
+
+        </div>
+
+      </form>
     </div>
 
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+</section>
 
-</form>
+<script>
+function previewImage(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const preview = document.getElementById('imagePreview');
+    const container = document.getElementById('previewContainer');
+    preview.src = URL.createObjectURL(file);
+    container.classList.remove('d-none');
+  }
+}
+</script>

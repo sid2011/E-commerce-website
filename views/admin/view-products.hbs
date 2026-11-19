@@ -1,31 +1,181 @@
-<section>
-    <div class="container"><div class="row mt-3">
-        <a href="/admin/add-product" class="btn btn-success ms-auto" style="width:11%">Add product</a></div>
-        <table class="table mt-3">
-  <thead>
-    <tr>
-        
-      <th scope="col">No</th>
-      <th scope="col">Title</th>
-      <th scope="col">Category</th>
-      <th scope="col">Price</th>
-      <th scope="col">Description</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each products}}
-    <tr>
-      <th scope="row">{{inc @index}}</th>
-      <td>{{this.name}}</td>
-      <td>{{this.category}}</td>
-      <td>{{this.price}}</td>
-      <td>{{this.description}}</td>
-      <td><img style="width: 50px;height:50px"  src="../product-images/{{this._id}}.jpg" alt="{{this.name}}"></td>
-      <td><a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a></td>
-      <td><a href="/admin/delete-product/{{this._id}}" class="btn btn-danger" onclick="return confirm('Do you want to delete {{this.name}}??')">Delete</a></td>
-    </tr>{{/each}}
-  </tbody>
-</table>
+<section class="py-4">
+  <div class="container">
+
+    <!-- Dashboard Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Admin Dashboard</h2>
+        <p class="text-muted small mb-0">Overview of your store performance and product catalog</p>
+      </div>
+
+      <a href="/admin/add-product" class="btn btn-primary d-inline-flex align-items-center gap-2 rounded-pill px-4 py-2 fw-semibold shadow-sm">
+        <i class="bi bi-plus-lg"></i>
+        <span>Add New Product</span>
+      </a>
     </div>
+
+    <!-- Metric / Stats Cards -->
+    <div class="row g-3 mb-4">
+      
+      <!-- Total Revenue -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon success">
+            <i class="bi bi-currency-rupee"></i>
+          </div>
+          <div>
+            <div class="stat-value">₹{{stats.totalRevenue}}</div>
+            <div class="stat-label">Total Revenue</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Products -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon primary">
+            <i class="bi bi-box-seam"></i>
+          </div>
+          <div>
+            <div class="stat-value">{{products.length}}</div>
+            <div class="stat-label">Total Products</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Orders -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon warning">
+            <i class="bi bi-cart-check"></i>
+          </div>
+          <div>
+            <div class="stat-value">{{stats.totalOrders}}</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Customers -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon info">
+            <i class="bi bi-people"></i>
+          </div>
+          <div>
+            <div class="stat-value">{{stats.totalUsers}}</div>
+            <div class="stat-label">Registered Users</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Products Table Card -->
+    <div class="modern-table-card">
+      <div class="p-3 bg-white border-bottom d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-boxes fs-5 text-primary"></i>
+          <h5 class="fw-bold mb-0">Product Inventory</h5>
+          <span class="badge bg-light text-dark border ms-2">{{products.length}} items</span>
+        </div>
+
+        <div style="max-width: 300px; width: 100%;">
+          <input
+            type="text"
+            id="adminSearchInput"
+            class="form-control form-control-sm rounded-pill"
+            placeholder="Filter products..."
+            onkeyup="filterAdminTable()"
+          />
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table modern-table" id="adminProductTable">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 60px;">#</th>
+              <th scope="col" style="width: 80px;">Image</th>
+              <th scope="col">Product Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col" style="max-width: 250px;">Description</th>
+              <th scope="col" class="text-end" style="width: 160px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#if products.length}}
+              {{#each products}}
+              <tr>
+                <td class="fw-semibold text-muted">{{inc @index}}</td>
+                <td>
+                  <img
+                    src="/product-images/{{this._id}}.jpg"
+                    alt="{{this.name}}"
+                    class="rounded-3 border"
+                    style="width: 50px; height: 50px; object-fit: contain; background: #fff;"
+                    onerror="this.onerror=null; this.src='https://placehold.co/100x100/e2e8f0/475569?text=IMG';"
+                  />
+                </td>
+                <td>
+                  <span class="fw-bold text-dark d-block">{{this.name}}</span>
+                  <small class="text-muted font-monospace" style="font-size: 0.75rem;">ID: {{this._id}}</small>
+                </td>
+                <td>
+                  <span class="badge bg-light text-primary border">{{this.category}}</span>
+                </td>
+                <td>
+                  <span class="fw-bold text-dark">₹{{this.price}}</span>
+                </td>
+                <td class="text-truncate" style="max-width: 250px;" title="{{this.description}}">
+                  {{this.description}}
+                </td>
+                <td class="text-end">
+                  <div class="d-inline-flex gap-2">
+                    <a
+                      href="/admin/edit-product/{{this._id}}"
+                      class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                      title="Edit Product"
+                    >
+                      <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a
+                      href="/admin/delete-product/{{this._id}}"
+                      class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                      onclick="return confirm('Are you sure you want to delete {{this.name}}?')"
+                      title="Delete Product"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {{/each}}
+            {{else}}
+              <tr>
+                <td colspan="7" class="text-center py-5 text-muted">
+                  <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                  No products found. Click "Add New Product" to populate your inventory.
+                </td>
+              </tr>
+            {{/if}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
 </section>
+
+<script>
+function filterAdminTable() {
+  const filter = (document.getElementById('adminSearchInput')?.value || '').toLowerCase();
+  const rows = document.querySelectorAll('#adminProductTable tbody tr');
+
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    row.style.display = text.includes(filter) ? '' : 'none';
+  });
+}
+</script>

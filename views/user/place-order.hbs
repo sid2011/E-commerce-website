@@ -1,50 +1,130 @@
-<form id="checkout-form">
-    <div class="container">
-        <div class="checkout">
-            <!-- Left Side -->
-            <div class="delivery-form">
-                <h2>Enter Delivery Details</h2>
+<section class="py-4">
+  <div class="container" style="max-width: 920px;">
 
-                <label>Address</label>
-                <textarea name="address" placeholder="Enter your address" required></textarea>
-
-                <label>Pincode</label>
-                <input type="text" name="pincode" placeholder="Enter pincode" required>
-
-                <label>Mobile Number</label>
-                <input type="text" name="mobile" placeholder="Enter mobile number" required>
-            </div>
-<input type="text"name='userId' value="{{user._id}}" hidden>
-            <!-- Right Side -->
-            <div class="amount-box">
-                <h3>Total Amount</h3>
-                <h1>₹{{total}}</h1>
-
-                <hr>
-
-                <h4>Payment Method</h4>
-
-                <div class="payment-option">
-                    <!-- ID NOT CHANGED -->
-                    <input type="radio" name="paymentMethod" id="COD" value="COD" required>
-                    <label for="cod">Cash on Delivery</label>
-                </div>
-
-                <div class="payment-option">
-                    <!-- ID NOT CHANGED -->
-                    <input type="radio" name="paymentMethod" id="ONLINE" value="ONLINE" required>
-                    <label for="online">Online Payment</label>
-                </div>
-
-                <button type="submit" class="placeorderbtn">Place Order</button>
-            </div>
-
-        </div>
+    <div class="mb-4">
+      <h2 class="fw-bold mb-1">Checkout & Delivery</h2>
+      <p class="text-muted small mb-0">Provide your shipping address and select your payment preference</p>
     </div>
-</form>
+
+    <form id="checkout-form">
+      <input type="hidden" name="userId" value="{{user._id}}">
+
+      <div class="row g-4">
+        
+        <!-- Delivery Details Form -->
+        <div class="col-lg-7">
+          <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+            <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+              <i class="bi bi-geo-alt-fill text-primary"></i> Shipping Address
+            </h5>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-dark">Full Street Address</label>
+              <textarea 
+                name="address" 
+                class="form-control form-control-custom" 
+                rows="3" 
+                placeholder="House / Flat No., Street, Landmark, City, State" 
+                required
+              ></textarea>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">PIN Code</label>
+                <input 
+                  type="text" 
+                  name="pincode" 
+                  class="form-control form-control-custom" 
+                  placeholder="e.g. 682001" 
+                  pattern="[0-9]{6}" 
+                  required
+                >
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Mobile Contact Number</label>
+                <input 
+                  type="tel" 
+                  name="mobile" 
+                  class="form-control form-control-custom" 
+                  placeholder="e.g. 9876543210" 
+                  pattern="[0-9]{10}" 
+                  required
+                >
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Payment & Order Total Sidebar -->
+        <div class="col-lg-5">
+          <div class="cart-summary-box">
+            <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+              <i class="bi bi-credit-card-2-front-fill text-primary"></i> Payment Details
+            </h5>
+
+            <div class="p-3 bg-light rounded-3 mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted small">Total Payable:</span>
+                <span class="fw-bold fs-4 text-dark">₹{{total}}</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-dark mb-2">Select Payment Method</label>
+              
+              <div class="d-flex flex-column gap-2">
+                
+                <label class="d-flex align-items-center gap-3 p-3 border rounded-3 cursor-pointer bg-white" for="COD">
+                  <input type="radio" name="paymentMethod" id="COD" value="COD" class="form-check-input mt-0" required>
+                  <div class="flex-grow-1">
+                    <div class="fw-semibold text-dark">Cash on Delivery (COD)</div>
+                    <small class="text-muted">Pay in cash or UPI when delivered</small>
+                  </div>
+                  <i class="bi bi-cash-stack fs-4 text-muted"></i>
+                </label>
+
+                <label class="d-flex align-items-center gap-3 p-3 border rounded-3 cursor-pointer bg-white" for="ONLINE">
+                  <input type="radio" name="paymentMethod" id="ONLINE" value="ONLINE" class="form-check-input mt-0" required>
+                  <div class="flex-grow-1">
+                    <div class="fw-semibold text-dark">Instant Online Payment</div>
+                    <small class="text-muted">UPI, Cards, NetBanking (Razorpay)</small>
+                  </div>
+                  <i class="bi bi-lightning-charge-fill fs-4 text-warning"></i>
+                </label>
+
+              </div>
+            </div>
+
+            <button type="submit" id="orderSubmitBtn" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mt-2">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Confirm & Place Order</span>
+            </button>
+
+            <div class="mt-3 text-center">
+              <small class="text-muted d-flex align-items-center justify-content-center gap-1">
+                <i class="bi bi-shield-check text-success"></i> 256-bit Encrypted SSL Security
+              </small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+  </div>
+</section>
+
 <script>
 $('#checkout-form').submit((e) => {
     e.preventDefault();
+    const btn = document.getElementById('orderSubmitBtn');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing Order...';
+    }
 
     $.ajax({
         url: '/place-order',
@@ -53,9 +133,22 @@ $('#checkout-form').submit((e) => {
         success: (response) => {
             if (response.cod_success) {
                 location.href = '/order-success';
-            } else {
+            } else if (response.id) {
                 razorpayPayment(response);
+            } else {
+                if (btn) {
+                  btn.disabled = false;
+                  btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Confirm & Place Order';
+                }
+                alert(response.err || "Failed to initialize order.");
             }
+        },
+        error: (err) => {
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Confirm & Place Order';
+            }
+            alert("Error placing order. Please try again.");
         }
     });
 });
@@ -65,34 +158,24 @@ function razorpayPayment(order) {
         key: "rzp_test_Stu1nTmBRweYK4",
         amount: order.amount,
         currency: "INR",
-        name: "E-Commerce",
-        description: "Test Transaction",
-        image: "https://cdn-icons-png.freepik.com/512/7835/7835563.png",
+        name: "NexStore",
+        description: "Secure Order Payment",
+        image: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z'/></svg>",
         order_id: order.id,
 
         handler: function (response) {
             verifyPayment(response, order);
-           console.log("RAZORPAY RESPONSE:", response);
-        },
-
-        prefill: {
-            name: "Gaurav Kumar",
-            email: "gaurav.kumar@example.com",
-            contact: "+919876543210"
-        },
-
-        notes: {
-            address: "Razorpay Corporate Office"
         },
 
         theme: {
-            color: "#3399cc"
+            color: "#4f46e5"
         }
     };
 
     var rzp1 = new Razorpay(options);
     rzp1.open();
 }
+
 function verifyPayment(payment, order) {
   $.ajax({
     url: '/verify-payment',

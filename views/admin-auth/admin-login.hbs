@@ -1,59 +1,58 @@
+<div class="auth-wrapper" style="background: #0b0f19;">
+  <div class="auth-card" style="background: #111827; border-color: #1f2937; color: #f9fafb;">
 
-<section
-  class="vh-100 d-flex align-items-center justify-content-center"
-  style="background-color: #121212;">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-5 col-lg-4">
-        <div
-          class="card border-0 shadow-lg"
-          style="background-color: #1e1e1e; border-radius: 15px;">
-
-          <div class="card-body p-5">
-
-            <h2 class="text-center text-light mb-4">
-              Admin Login
-            </h2>
-
-            <form action="/admin/login" method="post">
-
-              <div class="mb-3">
-                <label class="form-label text-light">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  class="form-control bg-dark text-light border-secondary"
-                  name="email"
-                  placeholder="Enter email"
-                  required>
-              </div>
-
-              <div class="mb-4">
-                <label class="form-label text-light">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  class="form-control bg-dark text-light border-secondary"
-                  name="password"
-                  placeholder="Enter password"
-                  required>
-              </div>
-
-              <button
-                type="submit"
-                class="btn btn-primary w-100">
-                Login
-              </button>
-
-            </form>
-
-          </div>
-        </div>
-
+    <div class="auth-header">
+      <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-25 text-primary rounded-circle mb-3" style="width: 56px; height: 56px;">
+        <i class="bi bi-shield-lock-fill fs-3"></i>
       </div>
+      <h2 class="auth-title text-white">Admin Portal</h2>
+      <p class="auth-subtitle text-white-50">Authorized personnel access only</p>
     </div>
+
+    {{#if loginErr}}
+    <div class="alert alert-danger d-flex align-items-center gap-2 py-2 px-3 small rounded-3 mb-3 bg-danger bg-opacity-25 text-danger border-danger border-opacity-50" role="alert">
+      <i class="bi bi-exclamation-octagon-fill"></i>
+      <div>Invalid admin credentials. Access denied.</div>
+    </div>
+    {{/if}}
+
+    <form action="/admin/login" method="post">
+
+      <div class="mb-3">
+        <label class="form-label small fw-semibold text-white-50">Admin Email</label>
+        <input 
+          type="email" 
+          name="email" 
+          class="form-control form-control-custom" 
+          style="background: #1f2937; border-color: #374151; color: #fff;" 
+          placeholder="admin@nexstore.com" 
+          required
+        >
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label small fw-semibold text-white-50">Password</label>
+        <input 
+          type="password" 
+          name="password" 
+          class="form-control form-control-custom" 
+          style="background: #1f2937; border-color: #374151; color: #fff;" 
+          placeholder="••••••••" 
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 mb-3 shadow-sm">
+        <i class="bi bi-box-arrow-in-right me-1"></i> Access Admin Console
+      </button>
+
+      <div class="text-center">
+        <a href="/" class="small text-white-50 text-decoration-none">
+          <i class="bi bi-arrow-left me-1"></i> Return to Public Store
+        </a>
+      </div>
+
+    </form>
+
   </div>
-</section>
-```
+</div>

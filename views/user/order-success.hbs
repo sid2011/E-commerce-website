@@ -1,16 +1,27 @@
-<style>
-.center {
-  display: flex;
-  justify-content: center;  /* horizontal center */
-  align-items: center;      /* vertical center */
-}
+<section class="py-5">
+  <div class="container text-center" style="max-width: 600px;">
+    
+    <div class="card border-0 shadow-sm rounded-4 p-5 bg-white my-4">
+      
+      <div class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-3" style="width: 80px; height: 80px;">
+        <i class="bi bi-check-circle-fill fs-1"></i>
+      </div>
 
-.order-img {
-  width: 60%;
-  height: auto;
-}
-</style>
+      <h2 class="fw-bold text-dark mb-2">Order Confirmed!</h2>
+      <p class="text-muted mb-4">
+        Thank you for your purchase. We have received your order and our fulfillment team is preparing it for dispatch.
+      </p>
 
-<div class="center">
-  <img src="/images/order-success.png" alt="order success" class="order-img">
-</div>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a href="/all-orders" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+          <i class="bi bi-box-seam me-1"></i> View Order History
+        </a>
+        <a href="/" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold">
+          <i class="bi bi-shop me-1"></i> Back to Store
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
